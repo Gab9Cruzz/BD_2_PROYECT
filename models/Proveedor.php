@@ -6,13 +6,17 @@
 
 class Proveedor {
     private $conn;
-    private $table = "Proveedor";
+    private $table = "proveedores";
 
-    public $id_proveedor;
+    public $id;
     public $nombre;
+    public $ruc;
     public $telefono;
-    public $correo;
+    public $email;
     public $direccion;
+    public $ciudad;
+    public $provincia;
+    public $pais;
 
     public function __construct($db) {
         $this->conn = $db;

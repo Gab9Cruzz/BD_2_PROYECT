@@ -6,13 +6,18 @@
 
 class Cliente {
     private $conn;
-    private $table = "Cliente";
+    private $table = "clientes";
 
-    // Propiedades del cliente
-    public $id_cliente;
-    public $nombre;
+    public $id;
+    public $tipo_identificacion;
+    public $numero_identificacion;
+    public $nombres;
+    public $apellidos;
+    public $telefono;
+    public $email;
     public $direccion;
-    public $correo;
+    public $ciudad;
+    public $provincia;
 
     /**
      * Constructor
@@ -21,11 +26,8 @@ class Cliente {
         $this->conn = $db;
     }
 
-    /**
-     * Obtener todos los clientes
-     */
     public function obtenerTodos() {
-        $query = "SELECT * FROM " . $this->table . " ORDER BY nombre ASC";
+        $query = "SELECT * FROM " . $this->table . " ORDER BY nombres, apellidos ASC";
         
         try {
             $stmt = $this->conn->prepare($query);
@@ -37,22 +39,25 @@ class Cliente {
         }
     }
 
-    /**
-     * Obtener un cliente por ID
-     */
     public function obtenerPorId() {
-        $query = "SELECT * FROM " . $this->table . " WHERE id_cliente = :id_cliente LIMIT 1";
+        $query = "SELECT * FROM " . $this->table . " WHERE id = :id LIMIT 1";
         
         try {
             $stmt = $this->conn->prepare($query);
-            $stmt->bindParam(":id_cliente", $this->id_cliente);
+            $stmt->bindParam(":id", $this->id);
             $stmt->execute();
             
             $row = $stmt->fetch();
             if($row) {
-                $this->nombre = $row['nombre'];
+                $this->tipo_identificacion = $row['tipo_identificacion'];
+                $this->numero_identificacion = $row['numero_identificacion'];
+                $this->nombres = $row['nombres'];
+                $this->apellidos = $row['apellidos'];
+                $this->telefono = $row['telefono'];
+                $this->email = $row['email'];
                 $this->direccion = $row['direccion'];
-                $this->correo = $row['correo'];
+                $this->ciudad = $row['ciudad'];
+                $this->provincia = $row['provincia'];
                 return true;
             }
             return false;
@@ -62,30 +67,36 @@ class Cliente {
         }
     }
 
-    /**
-     * Crear nuevo cliente
-     */
     public function crear() {
         $query = "INSERT INTO " . $this->table . " 
-                  (nombre, direccion, correo) 
+                  (tipo_identificacion, numero_identificacion, nombres, apellidos, telefono, email, direccion, ciudad, provincia) 
                   VALUES 
-                  (:nombre, :direccion, :correo)";
+                  (:tipo_identificacion, :numero_identificacion, :nombres, :apellidos, :telefono, :email, :direccion, :ciudad, :provincia)";
         
         try {
             $stmt = $this->conn->prepare($query);
             
-            // Sanitizar datos
-            $this->nombre = htmlspecialchars(strip_tags($this->nombre));
+            $this->numero_identificacion = htmlspecialchars(strip_tags($this->numero_identificacion));
+            $this->nombres = htmlspecialchars(strip_tags($this->nombres));
+            $this->apellidos = htmlspecialchars(strip_tags($this->apellidos));
+            $this->telefono = htmlspecialchars(strip_tags($this->telefono));
+            $this->email = htmlspecialchars(strip_tags($this->email));
             $this->direccion = htmlspecialchars(strip_tags($this->direccion));
-            $this->correo = htmlspecialchars(strip_tags($this->correo));
+            $this->ciudad = htmlspecialchars(strip_tags($this->ciudad));
+            $this->provincia = htmlspecialchars(strip_tags($this->provincia));
             
-            // Bind de parámetros
-            $stmt->bindParam(":nombre", $this->nombre);
+            $stmt->bindParam(":tipo_identificacion", $this->tipo_identificacion);
+            $stmt->bindParam(":numero_identificacion", $this->numero_identificacion);
+            $stmt->bindParam(":nombres", $this->nombres);
+            $stmt->bindParam(":apellidos", $this->apellidos);
+            $stmt->bindParam(":telefono", $this->telefono);
+            $stmt->bindParam(":email", $this->email);
             $stmt->bindParam(":direccion", $this->direccion);
-            $stmt->bindParam(":correo", $this->correo);
+            $stmt->bindParam(":ciudad", $this->ciudad);
+            $stmt->bindParam(":provincia", $this->provincia);
             
             if($stmt->execute()) {
-                $this->id_cliente = $this->conn->lastInsertId();
+                $this->id = $this->conn->lastInsertId();
                 return true;
             }
             return false;
@@ -95,29 +106,41 @@ class Cliente {
         }
     }
 
-    /**
-     * Actualizar cliente
-     */
     public function actualizar() {
         $query = "UPDATE " . $this->table . " 
-                  SET nombre = :nombre, 
-                      direccion = :direccion, 
-                      correo = :correo
-                  WHERE id_cliente = :id_cliente";
+                  SET tipo_identificacion = :tipo_identificacion,
+                      numero_identificacion = :numero_identificacion,
+                      nombres = :nombres,
+                      apellidos = :apellidos,
+                      telefono = :telefono,
+                      email = :email,
+                      direccion = :direccion,
+                      ciudad = :ciudad,
+                      provincia = :provincia
+                  WHERE id = :id";
         
         try {
             $stmt = $this->conn->prepare($query);
             
-            // Sanitizar datos
-            $this->nombre = htmlspecialchars(strip_tags($this->nombre));
+            $this->numero_identificacion = htmlspecialchars(strip_tags($this->numero_identificacion));
+            $this->nombres = htmlspecialchars(strip_tags($this->nombres));
+            $this->apellidos = htmlspecialchars(strip_tags($this->apellidos));
+            $this->telefono = htmlspecialchars(strip_tags($this->telefono));
+            $this->email = htmlspecialchars(strip_tags($this->email));
             $this->direccion = htmlspecialchars(strip_tags($this->direccion));
-            $this->correo = htmlspecialchars(strip_tags($this->correo));
+            $this->ciudad = htmlspecialchars(strip_tags($this->ciudad));
+            $this->provincia = htmlspecialchars(strip_tags($this->provincia));
             
-            // Bind de parámetros
-            $stmt->bindParam(":nombre", $this->nombre);
+            $stmt->bindParam(":tipo_identificacion", $this->tipo_identificacion);
+            $stmt->bindParam(":numero_identificacion", $this->numero_identificacion);
+            $stmt->bindParam(":nombres", $this->nombres);
+            $stmt->bindParam(":apellidos", $this->apellidos);
+            $stmt->bindParam(":telefono", $this->telefono);
+            $stmt->bindParam(":email", $this->email);
             $stmt->bindParam(":direccion", $this->direccion);
-            $stmt->bindParam(":correo", $this->correo);
-            $stmt->bindParam(":id_cliente", $this->id_cliente);
+            $stmt->bindParam(":ciudad", $this->ciudad);
+            $stmt->bindParam(":provincia", $this->provincia);
+            $stmt->bindParam(":id", $this->id);
             
             if($stmt->execute()) {
                 return true;
@@ -129,76 +152,12 @@ class Cliente {
         }
     }
 
-    /**
-     * Eliminar cliente
-     */
     public function eliminar() {
-        $query = "DELETE FROM " . $this->table . " WHERE id_cliente = :id_cliente";
+        $query = "DELETE FROM " . $this->table . " WHERE id = :id";
         
         try {
             $stmt = $this->conn->prepare($query);
-            $stmt->bindParam(":id_cliente", $this->id_cliente);
-            
-            if($stmt->execute()) {
-                return true;
-            }
-            return false;
-        } catch(PDOException $e) {
-            echo "Error: " . $e->getMessage();
-            return false;
-        }
-    }
-
-    /**
-     * Obtener teléfonos de un cliente
-     */
-    public function obtenerTelefonos() {
-        $query = "SELECT * FROM Telefono_Cliente WHERE id_cliente = :id_cliente";
-        
-        try {
-            $stmt = $this->conn->prepare($query);
-            $stmt->bindParam(":id_cliente", $this->id_cliente);
-            $stmt->execute();
-            return $stmt;
-        } catch(PDOException $e) {
-            echo "Error: " . $e->getMessage();
-            return false;
-        }
-    }
-
-    /**
-     * Agregar teléfono a cliente
-     */
-    public function agregarTelefono($telefono) {
-        $query = "INSERT INTO Telefono_Cliente (id_cliente, telefono) VALUES (:id_cliente, :telefono)";
-        
-        try {
-            $stmt = $this->conn->prepare($query);
-            $telefono = htmlspecialchars(strip_tags($telefono));
-            
-            $stmt->bindParam(":id_cliente", $this->id_cliente);
-            $stmt->bindParam(":telefono", $telefono);
-            
-            if($stmt->execute()) {
-                return true;
-            }
-            return false;
-        } catch(PDOException $e) {
-            echo "Error: " . $e->getMessage();
-            return false;
-        }
-    }
-
-    /**
-     * Eliminar teléfono de cliente
-     */
-    public function eliminarTelefono($id_telefono) {
-        $query = "DELETE FROM Telefono_Cliente WHERE id_telefono = :id_telefono AND id_cliente = :id_cliente";
-        
-        try {
-            $stmt = $this->conn->prepare($query);
-            $stmt->bindParam(":id_telefono", $id_telefono);
-            $stmt->bindParam(":id_cliente", $this->id_cliente);
+            $stmt->bindParam(":id", $this->id);
             
             if($stmt->execute()) {
                 return true;

@@ -1,8 +1,15 @@
 <?php
+session_start();
+date_default_timezone_set('America/Guayaquil');
+
+require_once '../../config/auth.php';
 require_once '../../config/conexion.php';
 require_once '../../models/FacturaVenta.php';
 require_once '../../models/Cliente.php';
 require_once '../../models/Producto.php';
+
+// Requiere autenticación y permiso para generar ventas
+requierePermiso('ventas_generar');
 
 $database = new Conexion();
 $db = $database->getConnection();
@@ -23,27 +30,40 @@ if($_POST && isset($_POST['generar_venta'])) {
             throw new Exception("Debe agregar al menos un producto a la venta");
         }
 
-        $factura->id_cliente = !empty($_POST['id_cliente']) ? $_POST['id_cliente'] : null;
-        $factura->metodo_pago = $_POST['metodo_pago'];
+        $factura->numero_factura = 'FAC-' . date('YmdHis');
+        $factura->cliente_id = !empty($_POST['cliente_id']) ? $_POST['cliente_id'] : null;
+        $factura->fecha_emision = date('Y-m-d H:i:s');
+        $factura->forma_pago = $_POST['forma_pago'];
+        $factura->estado = 'pagada';
+        $factura->observaciones = '';
         
         // Preparar detalles de venta
         $detalles = [];
-        $total = 0;
+        $subtotal_total = 0;
+        $iva_total = 0;
         
         foreach($_POST['productos'] as $index => $id_producto) {
             if(!empty($id_producto) && !empty($_POST['cantidades'][$index]) && !empty($_POST['precios'][$index])) {
                 $cantidad = (int)$_POST['cantidades'][$index];
                 $precio = (float)$_POST['precios'][$index];
-                $subtotal = $cantidad * $precio;
+                $iva_porcentaje = isset($_POST['iva'][$index]) ? (float)$_POST['iva'][$index] : 15.00;
+                
+                $subtotal_item = $cantidad * $precio;
+                $iva_valor = $subtotal_item * ($iva_porcentaje / 100);
+                $total_item = $subtotal_item + $iva_valor;
                 
                 $detalles[] = [
-                    'id_producto' => $id_producto,
+                    'producto_id' => $id_producto,
                     'cantidad' => $cantidad,
                     'precio_unitario' => $precio,
-                    'subtotal' => $subtotal
+                    'subtotal' => $subtotal_item,
+                    'iva_porcentaje' => $iva_porcentaje,
+                    'iva_valor' => $iva_valor,
+                    'total' => $total_item
                 ];
                 
-                $total += $subtotal;
+                $subtotal_total += $subtotal_item;
+                $iva_total += $iva_valor;
             }
         }
         
@@ -51,13 +71,15 @@ if($_POST && isset($_POST['generar_venta'])) {
             throw new Exception("No se agregaron productos válidos a la venta");
         }
         
-        $factura->total = $total;
+        $factura->subtotal = $subtotal_total;
+        $factura->iva_total = $iva_total;
+        $factura->total = $subtotal_total + $iva_total;
         
         // Crear la venta
         $id_factura_creada = $factura->crearVenta($detalles);
         
         if($id_factura_creada) {
-            $mensaje = "Venta #" . $id_factura_creada . " generada exitosamente. Total: $ " . number_format($total, 2);
+            $mensaje = "Venta " . $factura->numero_factura . " generada exitosamente. Total: $ " . number_format($factura->total, 2);
         } else {
             throw new Exception("Error al generar la venta. Verifique el stock disponible.");
         }
@@ -125,15 +147,15 @@ $productos = $producto->obtenerTodos();
                 <form method="POST" action="" id="formVenta">
                     <div class="row mb-4">
                         <div class="col-md-6">
-                            <label for="id_cliente" class="form-label">Cliente (Opcional)</label>
-                            <select class="form-select" id="id_cliente" name="id_cliente">
+                            <label for="cliente_id" class="form-label">Cliente (Opcional)</label>
+                            <select class="form-select" id="cliente_id" name="cliente_id">
                                 <option value="">Cliente genérico</option>
                                 <?php 
                                 if($clientes):
                                     while($cli = $clientes->fetch()): 
                                 ?>
-                                    <option value="<?php echo $cli['id_cliente']; ?>">
-                                        <?php echo htmlspecialchars($cli['nombre']); ?>
+                                    <option value="<?php echo $cli['id']; ?>">
+                                        <?php echo htmlspecialchars($cli['nombres'] . ' ' . $cli['apellidos']); ?>
                                     </option>
                                 <?php 
                                     endwhile;
@@ -142,14 +164,14 @@ $productos = $producto->obtenerTodos();
                             </select>
                         </div>
                         <div class="col-md-6">
-                            <label for="metodo_pago" class="form-label">Método de Pago *</label>
-                            <select class="form-select" id="metodo_pago" name="metodo_pago" required>
+                            <label for="forma_pago" class="form-label">Forma de Pago *</label>
+                            <select class="form-select" id="forma_pago" name="forma_pago" required>
                                 <option value="">Seleccione...</option>
-                                <option value="Efectivo">Efectivo</option>
-                                <option value="Tarjeta Débito">Tarjeta Débito</option>
-                                <option value="Tarjeta Crédito">Tarjeta Crédito</option>
-                                <option value="Transferencia Bancaria">Transferencia Bancaria</option>
-                                <option value="Depósito Bancario">Depósito Bancario</option>
+                                <option value="efectivo">Efectivo</option>
+                                <option value="tarjeta_debito">Tarjeta Débito</option>
+                                <option value="tarjeta_credito">Tarjeta Crédito</option>
+                                <option value="transferencia">Transferencia Bancaria</option>
+                                <option value="cheque">Cheque</option>
                             </select>
                         </div>
                     </div>
@@ -158,8 +180,8 @@ $productos = $producto->obtenerTodos();
 
                     <h5><i class="bi bi-bag"></i> Productos de la Venta</h5>
                     <div id="productos-container">
-                        <div class="producto-row row align-items-end">
-                            <div class="col-md-5">
+                        <div class="producto-row row align-items-end mb-2">
+                            <div class="col-md-4">
                                 <label class="form-label">Producto</label>
                                 <select class="form-select producto-select" name="productos[]" required onchange="actualizarPrecio(this)">
                                     <option value="">Seleccione producto...</option>
@@ -169,13 +191,13 @@ $productos = $producto->obtenerTodos();
                                     if($productos):
                                         while($prod = $productos->fetch()): 
                                     ?>
-                                    <option value="<?php echo $prod['id_producto']; ?>" 
-                                            data-precio="<?php echo number_format($prod['precio'], 2, '.', ''); ?>"
-                                            data-stock="<?php echo $prod['stock']; ?>">
+                                    <option value="<?php echo $prod['id']; ?>" 
+                                            data-precio="<?php echo number_format($prod['precio_venta'], 2, '.', ''); ?>"
+                                            data-stock="<?php echo $prod['stock_actual']; ?>"
+                                            data-iva="<?php echo $prod['iva']; ?>">
                                         <?php echo htmlspecialchars($prod['nombre']); ?> - 
-                                        <?php echo htmlspecialchars($prod['talla']); ?> - 
-                                        <?php echo htmlspecialchars($prod['color']); ?> 
-                                        (Stock: <?php echo $prod['stock']; ?>) - $ <?php echo number_format($prod['precio'], 2); ?>
+                                        <?php echo htmlspecialchars($prod['marca']); ?> 
+                                        (Stock: <?php echo $prod['stock_actual']; ?>) - $ <?php echo number_format($prod['precio_venta'], 2); ?>
                                     </option>
                                     <?php 
                                         endwhile;
@@ -183,22 +205,27 @@ $productos = $producto->obtenerTodos();
                                     ?>
                                 </select>
                             </div>
-                            <div class="col-md-2">
-                                <label class="form-label">Cantidad</label>
+                            <div class="col-md-1">
+                                <label class="form-label">Cant.</label>
                                 <input type="number" class="form-control cantidad-input" name="cantidades[]" 
                                        min="1" value="1" required onchange="calcularTotal()">
                             </div>
                             <div class="col-md-2">
-                                <label class="form-label">Precio Unit.</label>
+                                <label class="form-label">P. Unit.</label>
                                 <input type="number" class="form-control precio-input" name="precios[]" 
-                                       step="0.01" min="0.01" value="50.00" required onchange="calcularTotal()">
+                                       step="0.01" min="0.01" value="0.00" required onchange="calcularTotal()">
                             </div>
                             <div class="col-md-2">
                                 <label class="form-label">Subtotal</label>
-                                <input type="text" class="form-control subtotal-input" readonly value="$ 50.00">
+                                <input type="text" class="form-control subtotal-input" readonly value="$ 0.00">
+                            </div>
+                            <div class="col-md-2">
+                                <label class="form-label">IVA (15%)</label>
+                                <input type="text" class="form-control iva-input" readonly value="$ 0.00">
                             </div>
                             <div class="col-md-1">
-                                <button type="button" class="btn btn-danger btn-sm" onclick="eliminarProducto(this)">
+                                <label class="form-label d-block">&nbsp;</label>
+                                <button type="button" class="btn btn-danger btn-sm w-100" onclick="eliminarProducto(this)">
                                     <i class="bi bi-trash"></i>
                                 </button>
                             </div>
@@ -216,8 +243,20 @@ $productos = $producto->obtenerTodos();
                         <div class="col-md-4">
                             <div class="card bg-light">
                                 <div class="card-body">
-                                    <h5>Total de la Venta:</h5>
-                                    <p class="total-venta text-success" id="total-venta">$ 50.00</p>
+                                    <table class="table table-sm mb-0">
+                                        <tr>
+                                            <td><strong>Subtotal:</strong></td>
+                                            <td class="text-end" id="subtotal-venta">$ 0.00</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>IVA Total:</strong></td>
+                                            <td class="text-end" id="iva-total-venta">$ 0.00</td>
+                                        </tr>
+                                        <tr class="table-success">
+                                            <td><strong>TOTAL:</strong></td>
+                                            <td class="text-end"><strong id="total-venta">$ 0.00</strong></td>
+                                        </tr>
+                                    </table>
                                 </div>
                             </div>
                         </div>
@@ -247,6 +286,8 @@ $productos = $producto->obtenerTodos();
             nuevoProducto.querySelector('.cantidad-input').value = '1';
             nuevoProducto.querySelector('.precio-input').value = '0.00';
             nuevoProducto.querySelector('.subtotal-input').value = '$ 0.00';
+            nuevoProducto.querySelector('.iva-input').value = '$ 0.00';
+            nuevoProducto.setAttribute('data-iva', '15.00');
             
             container.appendChild(nuevoProducto);
             calcularTotal();
@@ -267,9 +308,13 @@ $productos = $producto->obtenerTodos();
             const option = select.options[select.selectedIndex];
             const precio = option.getAttribute('data-precio') || '0';
             const stock = option.getAttribute('data-stock') || '0';
+            const iva = option.getAttribute('data-iva') || '15.00';
             
             const cantidadInput = row.querySelector('.cantidad-input');
             cantidadInput.max = stock;
+            
+            // Guardar el IVA como atributo data en la fila
+            row.setAttribute('data-iva', iva);
             
             if(parseInt(stock) === 0) {
                 alert('Este producto no tiene stock disponible');
@@ -286,23 +331,38 @@ $productos = $producto->obtenerTodos();
         function calcularSubtotal(row) {
             const cantidad = parseFloat(row.querySelector('.cantidad-input').value) || 0;
             const precio = parseFloat(row.querySelector('.precio-input').value) || 0;
+            const iva_porcentaje = parseFloat(row.getAttribute('data-iva')) || 15.00;
+            
             const subtotal = cantidad * precio;
+            const iva_valor = subtotal * (iva_porcentaje / 100);
             
             row.querySelector('.subtotal-input').value = '$ ' + subtotal.toFixed(2);
+            row.querySelector('.iva-input').value = '$ ' + iva_valor.toFixed(2) + ' (' + iva_porcentaje + '%)';
         }
 
         function calcularTotal() {
             const rows = document.querySelectorAll('.producto-row');
-            let total = 0;
+            let subtotal_total = 0;
+            let iva_total = 0;
             
             rows.forEach(row => {
                 calcularSubtotal(row);
                 const cantidad = parseFloat(row.querySelector('.cantidad-input').value) || 0;
                 const precio = parseFloat(row.querySelector('.precio-input').value) || 0;
-                total += cantidad * precio;
+                const iva_porcentaje = parseFloat(row.getAttribute('data-iva')) || 15.00;
+                
+                const subtotal = cantidad * precio;
+                const iva_valor = subtotal * (iva_porcentaje / 100);
+                
+                subtotal_total += subtotal;
+                iva_total += iva_valor;
             });
             
-            document.getElementById('total-venta').textContent = '$ ' + total.toFixed(2);
+            const total_general = subtotal_total + iva_total;
+            
+            document.getElementById('subtotal-venta').textContent = '$ ' + subtotal_total.toFixed(2);
+            document.getElementById('iva-total-venta').textContent = '$ ' + iva_total.toFixed(2);
+            document.getElementById('total-venta').textContent = '$ ' + total_general.toFixed(2);
         }
 
         // Inicializar cálculo al cargar

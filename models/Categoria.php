@@ -6,9 +6,9 @@
 
 class Categoria {
     private $conn;
-    private $table = "Categoria";
+    private $table = "categorias";
 
-    public $id_categoria;
+    public $id;
     public $nombre;
     public $descripcion;
 

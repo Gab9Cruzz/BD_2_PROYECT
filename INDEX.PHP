@@ -1,3 +1,12 @@
+<?php
+session_start();
+require_once 'config/auth.php';
+
+// Requerir autenticación para acceder al sistema
+requiereAutenticacion();
+
+$usuario = obtenerUsuario();
+?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -24,27 +33,66 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="index.php"><i class="bi bi-house-door"></i> Inicio</a>
+                        <a class="nav-link active" href="index.php"><i class="bi bi-house-door"></i> Inicio</a>
                     </li>
+                    
+                    <?php if(tienePermiso('productos_crear')): ?>
                     <li class="nav-item">
                         <a class="nav-link" href="views/productos/crear.php"><i class="bi bi-plus-circle"></i> Nuevo Producto</a>
                     </li>
+                    <?php endif; ?>
+                    
+                    <?php if(tienePermiso('clientes_crear')): ?>
                     <li class="nav-item">
                         <a class="nav-link" href="views/clientes/crear.php"><i class="bi bi-person-plus"></i> Nuevo Cliente</a>
                     </li>
+                    <?php endif; ?>
+                    
+                    <?php if(tienePermiso('productos_editar')): ?>
                     <li class="nav-item">
                         <a class="nav-link" href="views/productos/editar.php"><i class="bi bi-pencil"></i> Editar Producto</a>
                     </li>
+                    <?php endif; ?>
+                    
+                    <?php if(tienePermiso('clientes_editar')): ?>
                     <li class="nav-item">
                         <a class="nav-link" href="views/clientes/editar.php"><i class="bi bi-pencil-square"></i> Editar Cliente</a>
                     </li>
+                    <?php endif; ?>
+                    
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarReportes" role="button" data-bs-toggle="dropdown">
                             <i class="bi bi-file-earmark-bar-graph"></i> Reportes
                         </a>
                         <ul class="dropdown-menu">
+                            <?php if(tienePermiso('ventas_generar')): ?>
                             <li><a class="dropdown-item" href="views/ventas/generar.php">Generar Venta</a></li>
+                            <?php endif; ?>
+                            
+                            <?php if(tienePermiso('reportes_ventas')): ?>
                             <li><a class="dropdown-item" href="views/reportes/ventas.php">Reporte de Ventas</a></li>
+                            <?php endif; ?>
+                            
+                            <?php if(tienePermiso('reportes_stock')): ?>
+                            <li><a class="dropdown-item" href="views/reportes/stock_minimo.php">Reporte Stock Mínimo</a></li>
+                            <?php endif; ?>
+                        </ul>
+                    </li>
+                    
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarUser" role="button" data-bs-toggle="dropdown">
+                            <i class="bi bi-person-circle"></i> <?php echo htmlspecialchars($usuario['nombre']); ?>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li class="dropdown-item-text">
+                                <small class="text-muted">
+                                    <i class="bi bi-shield"></i> Rol: <strong><?php echo ucfirst($usuario['rol']); ?></strong>
+                                </small>
+                            </li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item text-danger" href="auth/logout.php">
+                                <i class="bi bi-box-arrow-left"></i> Cerrar Sesión
+                            </a></li>
                         </ul>
                     </li>
                 </ul>
@@ -61,11 +109,16 @@
                     <div class="card-body text-center py-5">
                         <h1 class="display-4"><i class="bi bi-shop-window"></i> Sistema de Inventario</h1>
                         <p class="lead">Gestión completa para tu tienda de ropa</p>
+                        <div class="badge bg-light text-dark fs-6 mt-2">
+                            <i class="bi bi-person-badge"></i> <?php echo htmlspecialchars($usuario['nombre']); ?> 
+                            | Rol: <?php echo ucfirst($usuario['rol']); ?>
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Dashboard Cards - 6 Pantallas Requeridas -->
+            <!-- Dashboard Cards - Según permisos del rol -->
+            <?php if(tienePermiso('productos_crear')): ?>
             <div class="col-md-6 col-lg-4 mb-4">
                 <div class="card border-0 shadow-sm h-100 card-hover">
                     <div class="card-body text-center">
@@ -80,7 +133,9 @@
                     </div>
                 </div>
             </div>
+            <?php endif; ?>
 
+            <?php if(tienePermiso('clientes_crear')): ?>
             <div class="col-md-6 col-lg-4 mb-4">
                 <div class="card border-0 shadow-sm h-100 card-hover">
                     <div class="card-body text-center">
@@ -95,7 +150,9 @@
                     </div>
                 </div>
             </div>
+            <?php endif; ?>
 
+            <?php if(tienePermiso('productos_editar')): ?>
             <div class="col-md-6 col-lg-4 mb-4">
                 <div class="card border-0 shadow-sm h-100 card-hover">
                     <div class="card-body text-center">
@@ -110,7 +167,9 @@
                     </div>
                 </div>
             </div>
+            <?php endif; ?>
 
+            <?php if(tienePermiso('clientes_editar')): ?>
             <div class="col-md-6 col-lg-4 mb-4">
                 <div class="card border-0 shadow-sm h-100 card-hover">
                     <div class="card-body text-center">
@@ -125,7 +184,9 @@
                     </div>
                 </div>
             </div>
+            <?php endif; ?>
 
+            <?php if(tienePermiso('ventas_generar')): ?>
             <div class="col-md-6 col-lg-4 mb-4">
                 <div class="card border-0 shadow-sm h-100 card-hover">
                     <div class="card-body text-center">
@@ -140,7 +201,9 @@
                     </div>
                 </div>
             </div>
+            <?php endif; ?>
 
+            <?php if(tienePermiso('reportes_ventas')): ?>
             <div class="col-md-6 col-lg-4 mb-4">
                 <div class="card border-0 shadow-sm h-100 card-hover">
                     <div class="card-body text-center">
@@ -155,37 +218,113 @@
                     </div>
                 </div>
             </div>
+            <?php endif; ?>
 
-            <!-- Quick Actions - 6 Pantallas -->
+            <?php if(tienePermiso('reportes_stock')): ?>
+            <div class="col-md-6 col-lg-4 mb-4">
+                <div class="card border-0 shadow-sm h-100 card-hover">
+                    <div class="card-body text-center">
+                        <div class="icon-circle bg-warning-soft mb-3">
+                            <i class="bi bi-exclamation-triangle fs-1 text-warning"></i>
+                        </div>
+                        <h5 class="card-title">Reporte Stock Mínimo</h5>
+                        <p class="card-text text-muted">Reporte de datos</p>
+                        <a href="views/reportes/stock_minimo.php" class="btn btn-outline-warning btn-sm">
+                            Ver Reporte <i class="bi bi-arrow-right"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <?php endif; ?>
+
+            <!-- Quick Actions - Según rol -->
             <div class="col-12">
                 <div class="card border-0 shadow-sm">
                     <div class="card-header bg-white">
-                        <h5 class="mb-0"><i class="bi bi-lightning-charge"></i> Sistema de 6 Pantallas (2+2+2)</h5>
+                        <h5 class="mb-0">
+                            <i class="bi bi-lightning-charge"></i> 
+                            Módulos Disponibles para: <strong><?php echo ucfirst($usuario['rol']); ?></strong>
+                        </h5>
                     </div>
                     <div class="card-body">
                         <div class="row">
+                            <?php if(tienePermiso('productos_crear') || tienePermiso('clientes_crear')): ?>
                             <div class="col-md-4 mb-3">
                                 <h6 class="text-primary"><i class="bi bi-download"></i> INGRESO DE DATOS</h6>
                                 <ul class="list-unstyled">
-                                    <li><a href="views/productos/crear.php" class="text-decoration-none">1. Nuevo Producto</a></li>
-                                    <li><a href="views/clientes/crear.php" class="text-decoration-none">2. Nuevo Cliente</a></li>
+                                    <?php if(tienePermiso('productos_crear')): ?>
+                                    <li><a href="views/productos/crear.php" class="text-decoration-none">
+                                        <i class="bi bi-check-circle text-success"></i> Nuevo Producto
+                                    </a></li>
+                                    <?php endif; ?>
+                                    
+                                    <?php if(tienePermiso('clientes_crear')): ?>
+                                    <li><a href="views/clientes/crear.php" class="text-decoration-none">
+                                        <i class="bi bi-check-circle text-success"></i> Nuevo Cliente
+                                    </a></li>
+                                    <?php endif; ?>
                                 </ul>
                             </div>
+                            <?php endif; ?>
+                            
+                            <?php if(tienePermiso('productos_editar') || tienePermiso('clientes_editar')): ?>
                             <div class="col-md-4 mb-3">
                                 <h6 class="text-warning"><i class="bi bi-pencil"></i> ACTUALIZACIÓN DE DATOS</h6>
                                 <ul class="list-unstyled">
-                                    <li><a href="views/productos/editar.php" class="text-decoration-none">3. Editar Producto</a></li>
-                                    <li><a href="views/clientes/editar.php" class="text-decoration-none">4. Editar Cliente</a></li>
+                                    <?php if(tienePermiso('productos_editar')): ?>
+                                    <li><a href="views/productos/editar.php" class="text-decoration-none">
+                                        <i class="bi bi-check-circle text-success"></i> Editar Producto
+                                    </a></li>
+                                    <?php endif; ?>
+                                    
+                                    <?php if(tienePermiso('clientes_editar')): ?>
+                                    <li><a href="views/clientes/editar.php" class="text-decoration-none">
+                                        <i class="bi bi-check-circle text-success"></i> Editar Cliente
+                                    </a></li>
+                                    <?php endif; ?>
                                 </ul>
                             </div>
+                            <?php endif; ?>
+                            
+                            <?php if(tienePermiso('ventas_generar') || tienePermiso('reportes_ventas') || tienePermiso('reportes_stock')): ?>
                             <div class="col-md-4 mb-3">
                                 <h6 class="text-danger"><i class="bi bi-file-earmark-text"></i> REPORTES DE DATOS</h6>
                                 <ul class="list-unstyled">
-                                    <li><a href="views/ventas/generar.php" class="text-decoration-none">5. Generar Venta</a></li>
-                                    <li><a href="views/reportes/ventas.php" class="text-decoration-none">6. Reporte de Ventas</a></li>
+                                    <?php if(tienePermiso('ventas_generar')): ?>
+                                    <li><a href="views/ventas/generar.php" class="text-decoration-none">
+                                        <i class="bi bi-check-circle text-success"></i> Generar Venta
+                                    </a></li>
+                                    <?php endif; ?>
+                                    
+                                    <?php if(tienePermiso('reportes_ventas')): ?>
+                                    <li><a href="views/reportes/ventas.php" class="text-decoration-none">
+                                        <i class="bi bi-check-circle text-success"></i> Reporte de Ventas
+                                    </a></li>
+                                    <?php endif; ?>
+                                    
+                                    <?php if(tienePermiso('reportes_stock')): ?>
+                                    <li><a href="views/reportes/stock_minimo.php" class="text-decoration-none">
+                                        <i class="bi bi-check-circle text-success"></i> Reporte Stock Mínimo
+                                    </a></li>
+                                    <?php endif; ?>
                                 </ul>
                             </div>
+                            <?php endif; ?>
                         </div>
+                        
+                        <?php if(esVendedor()): ?>
+                        <div class="alert alert-info mt-3">
+                            <i class="bi bi-info-circle"></i> 
+                            Como <strong>Vendedor</strong>, tienes acceso a: Crear productos, Crear clientes y Generar ventas.
+                        </div>
+                        <?php endif; ?>
+                        
+                        <?php if(esAdmin()): ?>
+                        <div class="alert alert-success mt-3">
+                            <i class="bi bi-shield-check"></i> 
+                            Como <strong>Administrador</strong>, tienes acceso total a todos los módulos del sistema.
+                        </div>
+                        <?php endif; ?>
                     </div>
                 </div>
             </div>
@@ -196,8 +335,7 @@
     <footer class="mt-5 py-4 bg-light text-center">
         <div class="container">
             <p class="text-muted mb-0">
-                &copy; 2025 Sistema de Inventario - Tienda de Ropa | 
-                Desarrollado con <i class="bi bi-heart-fill text-danger"></i> usando PHP y Bootstrap
+                Sistema de Inventario - Tienda de Ropa
             </p>
         </div>
     </footer>

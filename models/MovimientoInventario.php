@@ -6,37 +6,37 @@
 
 class MovimientoInventario {
     private $conn;
-    private $table = "MovimientoInventario";
+    private $table = "movimientos_inventario";
 
-    public $id_movimiento;
-    public $id_producto;
+    public $id;
+    public $producto_id;
     public $tipo_movimiento;
     public $cantidad;
+    public $motivo;
+    public $usuario;
     public $fecha_movimiento;
-    public $descripcion;
 
     public function __construct($db) {
         $this->conn = $db;
     }
 
-    /**
-     * Registrar movimiento de inventario
-     */
     public function registrar() {
         $query = "INSERT INTO " . $this->table . " 
-                  (id_producto, tipo_movimiento, cantidad, descripcion) 
+                  (producto_id, tipo_movimiento, cantidad, motivo, usuario) 
                   VALUES 
-                  (:id_producto, :tipo_movimiento, :cantidad, :descripcion)";
+                  (:producto_id, :tipo_movimiento, :cantidad, :motivo, :usuario)";
         
         try {
             $stmt = $this->conn->prepare($query);
             
-            $this->descripcion = htmlspecialchars(strip_tags($this->descripcion));
+            $this->motivo = htmlspecialchars(strip_tags($this->motivo));
+            $this->usuario = htmlspecialchars(strip_tags($this->usuario));
             
-            $stmt->bindParam(":id_producto", $this->id_producto);
+            $stmt->bindParam(":producto_id", $this->producto_id);
             $stmt->bindParam(":tipo_movimiento", $this->tipo_movimiento);
             $stmt->bindParam(":cantidad", $this->cantidad);
-            $stmt->bindParam(":descripcion", $this->descripcion);
+            $stmt->bindParam(":motivo", $this->motivo);
+            $stmt->bindParam(":usuario", $this->usuario);
             
             if($stmt->execute()) {
                 return true;
@@ -48,14 +48,8 @@ class MovimientoInventario {
         }
     }
 
-    /**
-     * Obtener todos los movimientos
-     */
     public function obtenerTodos() {
-        $query = "SELECT m.*, p.nombre AS producto_nombre 
-                  FROM " . $this->table . " m
-                  INNER JOIN Producto p ON m.id_producto = p.id_producto
-                  ORDER BY m.fecha_movimiento DESC";
+        $query = "SELECT * FROM vista_movimientos_inventario";
         
         try {
             $stmt = $this->conn->prepare($query);
@@ -67,19 +61,16 @@ class MovimientoInventario {
         }
     }
 
-    /**
-     * Obtener movimientos por producto
-     */
     public function obtenerPorProducto() {
         $query = "SELECT m.*, p.nombre AS producto_nombre 
                   FROM " . $this->table . " m
-                  INNER JOIN Producto p ON m.id_producto = p.id_producto
-                  WHERE m.id_producto = :id_producto
+                  INNER JOIN productos p ON m.producto_id = p.id
+                  WHERE m.producto_id = :producto_id
                   ORDER BY m.fecha_movimiento DESC";
         
         try {
             $stmt = $this->conn->prepare($query);
-            $stmt->bindParam(":id_producto", $this->id_producto);
+            $stmt->bindParam(":producto_id", $this->producto_id);
             $stmt->execute();
             return $stmt;
         } catch(PDOException $e) {

@@ -6,41 +6,47 @@
 
 class FacturaVenta {
     private $conn;
-    private $table = "FacturaVenta";
+    private $table = "facturas_venta";
 
-    public $id_factura;
-    public $fecha;
-    public $id_cliente;
-    public $metodo_pago;
+    public $id;
+    public $numero_factura;
+    public $cliente_id;
+    public $fecha_emision;
+    public $subtotal;
+    public $iva_total;
     public $total;
+    public $forma_pago;
+    public $estado;
+    public $observaciones;
 
     public function __construct($db) {
         $this->conn = $db;
     }
 
-    /**
-     * Crear nueva venta con transacción
-     * @param array $detalles Array de productos vendidos
-     * @return bool|int ID de la factura creada o false
-     */
     public function crearVenta($detalles) {
         try {
-            // Iniciar transacción
             $this->conn->beginTransaction();
 
-            // 1. Insertar factura
             $query = "INSERT INTO " . $this->table . " 
-                      (id_cliente, metodo_pago, total) 
+                      (numero_factura, cliente_id, fecha_emision, subtotal, iva_total, total, forma_pago, estado, observaciones) 
                       VALUES 
-                      (:id_cliente, :metodo_pago, :total)";
+                      (:numero_factura, :cliente_id, :fecha_emision, :subtotal, :iva_total, :total, :forma_pago, :estado, :observaciones)";
             
             $stmt = $this->conn->prepare($query);
             
-            $this->metodo_pago = htmlspecialchars(strip_tags($this->metodo_pago));
+            $this->numero_factura = htmlspecialchars(strip_tags($this->numero_factura));
+            $this->forma_pago = htmlspecialchars(strip_tags($this->forma_pago));
+            $this->observaciones = htmlspecialchars(strip_tags($this->observaciones));
             
-            $stmt->bindParam(":id_cliente", $this->id_cliente);
-            $stmt->bindParam(":metodo_pago", $this->metodo_pago);
+            $stmt->bindParam(":numero_factura", $this->numero_factura);
+            $stmt->bindParam(":cliente_id", $this->cliente_id);
+            $stmt->bindParam(":fecha_emision", $this->fecha_emision);
+            $stmt->bindParam(":subtotal", $this->subtotal);
+            $stmt->bindParam(":iva_total", $this->iva_total);
             $stmt->bindParam(":total", $this->total);
+            $stmt->bindParam(":forma_pago", $this->forma_pago);
+            $stmt->bindParam(":estado", $this->estado);
+            $stmt->bindParam(":observaciones", $this->observaciones);
             
             if(!$stmt->execute()) {
                 throw new Exception("Error al crear la factura");
@@ -48,61 +54,59 @@ class FacturaVenta {
             
             $id_factura = $this->conn->lastInsertId();
 
-            // 2. Insertar detalles de venta
-            $queryDetalle = "INSERT INTO DetalleVenta 
-                            (id_factura, id_producto, cantidad, precio_unitario, subtotal) 
+            $queryDetalle = "INSERT INTO detalle_factura 
+                            (factura_id, producto_id, cantidad, precio_unitario, subtotal, iva_porcentaje, iva_valor, total) 
                             VALUES 
-                            (:id_factura, :id_producto, :cantidad, :precio_unitario, :subtotal)";
+                            (:factura_id, :producto_id, :cantidad, :precio_unitario, :subtotal, :iva_porcentaje, :iva_valor, :total)";
             
             $stmtDetalle = $this->conn->prepare($queryDetalle);
 
-            // 3. Actualizar stock y registrar movimientos
-            $queryStock = "UPDATE Producto 
-                          SET stock = stock - :cantidad 
-                          WHERE id_producto = :id_producto AND stock >= :cantidad";
+            $queryStock = "UPDATE productos 
+                          SET stock_actual = stock_actual - :cantidad 
+                          WHERE id = :producto_id AND stock_actual >= :cantidad";
             
             $stmtStock = $this->conn->prepare($queryStock);
 
-            $queryMovimiento = "INSERT INTO MovimientoInventario 
-                               (id_producto, tipo_movimiento, cantidad, descripcion) 
+            $queryMovimiento = "INSERT INTO movimientos_inventario 
+                               (producto_id, tipo_movimiento, cantidad, motivo, usuario) 
                                VALUES 
-                               (:id_producto, 'Salida', :cantidad, :descripcion)";
+                               (:producto_id, 'salida', :cantidad, :motivo, :usuario)";
             
             $stmtMovimiento = $this->conn->prepare($queryMovimiento);
 
-            // Procesar cada detalle
             foreach($detalles as $detalle) {
-                // Insertar detalle
-                $stmtDetalle->bindParam(":id_factura", $id_factura);
-                $stmtDetalle->bindParam(":id_producto", $detalle['id_producto']);
+                $stmtDetalle->bindParam(":factura_id", $id_factura);
+                $stmtDetalle->bindParam(":producto_id", $detalle['producto_id']);
                 $stmtDetalle->bindParam(":cantidad", $detalle['cantidad']);
                 $stmtDetalle->bindParam(":precio_unitario", $detalle['precio_unitario']);
                 $stmtDetalle->bindParam(":subtotal", $detalle['subtotal']);
+                $stmtDetalle->bindParam(":iva_porcentaje", $detalle['iva_porcentaje']);
+                $stmtDetalle->bindParam(":iva_valor", $detalle['iva_valor']);
+                $stmtDetalle->bindParam(":total", $detalle['total']);
                 
                 if(!$stmtDetalle->execute()) {
                     throw new Exception("Error al insertar detalle de venta");
                 }
 
-                // Actualizar stock
                 $stmtStock->bindParam(":cantidad", $detalle['cantidad']);
-                $stmtStock->bindParam(":id_producto", $detalle['id_producto']);
+                $stmtStock->bindParam(":producto_id", $detalle['producto_id']);
                 
                 if(!$stmtStock->execute() || $stmtStock->rowCount() == 0) {
-                    throw new Exception("Stock insuficiente para el producto ID: " . $detalle['id_producto']);
+                    throw new Exception("Stock insuficiente para el producto ID: " . $detalle['producto_id']);
                 }
 
-                // Registrar movimiento
-                $descripcion = "Venta - Factura #" . $id_factura;
-                $stmtMovimiento->bindParam(":id_producto", $detalle['id_producto']);
+                $motivo = "Venta - Factura #" . $this->numero_factura;
+                $usuario = "vendedor";
+                $stmtMovimiento->bindParam(":producto_id", $detalle['producto_id']);
                 $stmtMovimiento->bindParam(":cantidad", $detalle['cantidad']);
-                $stmtMovimiento->bindParam(":descripcion", $descripcion);
+                $stmtMovimiento->bindParam(":motivo", $motivo);
+                $stmtMovimiento->bindParam(":usuario", $usuario);
                 
                 if(!$stmtMovimiento->execute()) {
                     throw new Exception("Error al registrar movimiento de inventario");
                 }
             }
 
-            // Confirmar transacción
             $this->conn->commit();
             return $id_factura;
 
@@ -114,11 +118,8 @@ class FacturaVenta {
         }
     }
 
-    /**
-     * Obtener todas las ventas
-     */
     public function obtenerTodos() {
-        $query = "SELECT * FROM vista_ventas_completas";
+        $query = "SELECT * FROM vista_ventas_detalladas";
         
         try {
             $stmt = $this->conn->prepare($query);
@@ -130,19 +131,16 @@ class FacturaVenta {
         }
     }
 
-    /**
-     * Obtener venta por ID
-     */
     public function obtenerPorId() {
-        $query = "SELECT fv.*, c.nombre AS cliente_nombre 
-                  FROM " . $this->table . " fv
-                  LEFT JOIN Cliente c ON fv.id_cliente = c.id_cliente
-                  WHERE fv.id_factura = :id_factura
+        $query = "SELECT f.*, CONCAT(c.nombres, ' ', c.apellidos) AS cliente_nombre 
+                  FROM " . $this->table . " f
+                  LEFT JOIN clientes c ON f.cliente_id = c.id
+                  WHERE f.id = :id
                   LIMIT 1";
         
         try {
             $stmt = $this->conn->prepare($query);
-            $stmt->bindParam(":id_factura", $this->id_factura);
+            $stmt->bindParam(":id", $this->id);
             $stmt->execute();
             return $stmt->fetch();
         } catch(PDOException $e) {
@@ -151,18 +149,15 @@ class FacturaVenta {
         }
     }
 
-    /**
-     * Obtener detalles de una venta
-     */
     public function obtenerDetalles() {
-        $query = "SELECT dv.*, p.nombre AS producto_nombre 
-                  FROM DetalleVenta dv
-                  INNER JOIN Producto p ON dv.id_producto = p.id_producto
-                  WHERE dv.id_factura = :id_factura";
+        $query = "SELECT d.*, p.nombre AS producto_nombre, p.marca 
+                  FROM detalle_factura d
+                  INNER JOIN productos p ON d.producto_id = p.id
+                  WHERE d.factura_id = :factura_id";
         
         try {
             $stmt = $this->conn->prepare($query);
-            $stmt->bindParam(":id_factura", $this->id_factura);
+            $stmt->bindParam(":factura_id", $this->id);
             $stmt->execute();
             return $stmt;
         } catch(PDOException $e) {
@@ -171,15 +166,12 @@ class FacturaVenta {
         }
     }
 
-    /**
-     * Obtener ventas por rango de fechas
-     */
     public function obtenerPorFechas($fecha_inicio, $fecha_fin) {
-        $query = "SELECT fv.*, c.nombre AS cliente_nombre 
-                  FROM " . $this->table . " fv
-                  LEFT JOIN Cliente c ON fv.id_cliente = c.id_cliente
-                  WHERE DATE(fv.fecha) BETWEEN :fecha_inicio AND :fecha_fin
-                  ORDER BY fv.fecha DESC";
+        $query = "SELECT f.*, CONCAT(c.nombres, ' ', c.apellidos) AS cliente_nombre 
+                  FROM " . $this->table . " f
+                  LEFT JOIN clientes c ON f.cliente_id = c.id
+                  WHERE f.fecha_emision BETWEEN :fecha_inicio AND :fecha_fin
+                  ORDER BY f.fecha_emision DESC";
         
         try {
             $stmt = $this->conn->prepare($query);
