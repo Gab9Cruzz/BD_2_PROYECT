@@ -1,4 +1,4 @@
-# 🏪 Sistema de Inventario para Tienda de Ropa# 🏪 Sistema de Inventario para Tienda de Ropa# 🏪 Sistema de Inventario para Tienda de Ropa# 🛍️ Sistema de Inventario para Tienda de Ropa
+# 🏪 Sistema de Inventario para Tienda de Ropa
 
 
 
