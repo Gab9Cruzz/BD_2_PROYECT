@@ -1,8 +1,4 @@
 <?php
-/**
- * Modelo FacturaVenta
- * Gestiona las ventas y sus detalles con transacciones
- */
 
 class FacturaVenta {
     private $conn;

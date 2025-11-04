@@ -1,8 +1,4 @@
 <?php
-/**
- * Modelo Producto
- * Gestiona las operaciones CRUD de productos
- */
 
 class Producto {
     private $conn;
@@ -21,9 +17,6 @@ class Producto {
     public $stock_minimo;
     public $iva;
 
-    /**
-     * Constructor
-     */
     public function __construct($db) {
         $this->conn = $db;
     }

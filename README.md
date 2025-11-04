@@ -54,11 +54,11 @@
 
 - 📊 **8 Tablas normalizadas** (3FN)
 
-- 👁️ **2 Vistas SQL** para consultas optimizadas- 🧾 IVA: 15%**Frontend**: Bootstrap 5.3- ✅ **2 Pantallas de Actualización**: Editar productos y clientes
+- 👁️ **3 Vistas SQL** para consultas optimizadas
 
 - ⚙️ **1 Stored Procedure** para reportes complejos
 
-- 🔔 **1 Trigger** para alertas automáticas de re-stock- 🆔 Identificación: Cédula, RUC, Pasaporte
+- 🔔 **1 Trigger** para alertas automáticas de re-stock
 
 - 🔒 **Transacciones SQL** con control ACID
 
@@ -124,13 +124,9 @@
 
 ### Estructura
 
----
+- **8 Tablas**: categorias, proveedores, productos, movimientos_inventario, clientes, facturas_venta, detalle_factura, usuarios
 
-- **8 Tablas**: Proveedor, Categoria, Producto, Cliente, Telefono_Cliente, FacturaVenta, DetalleVenta, MovimientoInventario- 🆔 **Identificación**: Cédula (10 dígitos), RUC (13 dígitos), Pasaporte
-
-## 🚀 INSTALACIÓN RÁPIDA
-
-- **3 Vistas SQL**: vista_stock_bajo, vista_ventas_completas, vista_detalle_ventas
+- **3 Vistas SQL**: vista_productos_stock, vista_ventas_detalladas, vista_movimientos_inventario
 
 ### ✅ Requisitos Previos
 
@@ -190,11 +186,11 @@ C:\xampp\htdocs\Proyecto_PHP\- 📦 Gestión completa de productos (con marca e 
 
 1. Selecciona base de datos `inventario_tienda`
 
-2. Ve a pestaña **"Importar"**3. **Editar Producto** - Con botón eliminar- 📊 Reportes avanzados con SQL (Vistas + Stored Procedures)- **Conexión DB**: PDO con Prepared Statements
+2. Ve a pestaña **"Importar"**
 
-3. Selecciona archivo: `sql/inventario_tienda.sql`
+3. Selecciona archivo: `sql/inventario_tienda_COMPLETO.sql`
 
-4. Clic en **"Continuar"**4. **Editar Cliente** - Con botón eliminar
+4. Clic en **"Continuar"**
 
 5. Espera mensaje: ✅ "Importación finalizada correctamente"
 
@@ -294,15 +290,15 @@ Proyecto_PHP/7. **Generar Venta** - Con métodos de pago Ecuador---```
 
 │   └── js/
 
-│       └── main.js                    # JavaScript📖 **Guía detallada**: Ver `INSTALACION.md`5. **Telefono_Cliente** - Teléfonos (relación 1:N)│   ├── Categoria.php
+│       └── main.js                    # JavaScript
 
 │
 
 ├── 📁 sql/
 
-│   └── inventario_tienda.sql          # ⭐ Script completo
+│   └── inventario_tienda_COMPLETO.sql # ⭐ Script completo unificado
 
-│---6. **FacturaVenta** - Facturas de ventas│   └── Proveedor.php
+│
 
 ├── INDEX.PHP                          # Dashboard principal
 
@@ -420,53 +416,48 @@ Proyecto_PHP/7. **Generar Venta** - Con métodos de pago Ecuador---```
 
 ### 📊 Tablas (8)
 
-1. **usuarios** - Usuarios del sistema con roles
+1. **categorias** - Categorías de productos
 
-2. **categorias** - Categorías de productos## 🎯 ELEMENTOS SQL AVANZADOS---│       └── style.css
+2. **proveedores** - Información de proveedores (con RUC, datos Ecuador)
 
-3. **proveedores** - Información de proveedores
+3. **productos** - Inventario de productos (código único, marca, IVA 15%)
 
-4. **productos** - Inventario de productos
+4. **movimientos_inventario** - Auditoría de movimientos (entrada, salida, ajuste)
 
-5. **clientes** - Información de clientes
+5. **clientes** - Información de clientes (cédula, RUC, pasaporte)
 
-6. **facturas_venta** - Facturas generadas### Vistas (3)├── sql/
+6. **facturas_venta** - Facturas generadas (cabecera con totales)
 
-7. **detalle_factura** - Productos vendidos por factura
+7. **detalle_factura** - Productos vendidos por factura (líneas con IVA)
 
-8. **movimientos_inventario** - Historial de movimientos de stock- `vista_stock_bajo` - Productos críticos
-
-
-
-### 👁️ Vistas SQL (2)- `vista_ventas_completas` - Resumen ventas## 🖥️ PANTALLAS DEL SISTEMA│   └── inventario_tienda.sql
-
-- **`vista_productos_stock`** - Productos con su estado de stock
-
-- **`vista_ventas_detalladas`** - Resumen de ventas con clientes- `vista_detalle_ventas` - Con cálculo IVA 15%
+8. **usuarios** - Usuarios del sistema con roles (entidad aislada sin FK)- `vista_stock_bajo` - Productos críticos
 
 
 
-### ⚙️ Stored Procedures (1)└── index.php                  # Página principal con navegación
+### 👁️ Vistas SQL (3)
 
-- **`sp_reporte_ventas_periodo`** - Reporte de ventas con 2 resultados:
+- **`vista_productos_stock`** - Productos con su estado de stock (Sin stock / Stock bajo / Stock normal)
 
-  - Resultado 1: Lista de ventas en el período### Stored Procedure (1)
+- **`vista_ventas_detalladas`** - Resumen de ventas con información completa de clientes
 
-  - Resultado 2: Estadísticas (total ventas, subtotal, IVA, total general)
+- **`vista_movimientos_inventario`** - Auditoría de movimientos con información del producto
 
-- `sp_reporte_ventas_fechas` - Reporte con estadísticas### Ingreso de Datos (2 pantallas)```
+
+
+### ⚙️ Stored Procedures (1)
+
+- **`sp_reporte_ventas_periodo`** - Reporte de ventas por rango de fechas con 2 resultados:
+  - Resultado 1: Lista detallada de ventas del período
+  - Resultado 2: Estadísticas agregadas (total facturas, subtotal, IVA, total general)### Ingreso de Datos (2 pantallas)```
 
 ### 🔔 Triggers (1)
 
-- **`trg_restock_automatico`** - Se activa cuando `stock_actual <= stock_minimo`
+- **`trg_restock_automatico`** - Se activa AFTER UPDATE cuando `stock_actual <= stock_minimo`
+  - Registra movimiento de entrada automático en `movimientos_inventario`
+  - Usuario: 'SISTEMA'
+  - Reabastece con (stock_minimo × 2) unidades
 
-  - Crea movimiento de entrada automático
-
-  - Reabastecer con (stock_minimo × 2) unidades### Trigger (1)1. **Crear Producto** (`views/productos/crear.php`)
-
-
-
-### 🔒 Características Avanzadas- `tr_restock_producto` - Alerta automática cuando stock < mínimo
+### 🔒 Características Avanzadas
 
 - ✅ Normalización 3FN
 
@@ -702,7 +693,7 @@ Funciones disponibles:
 
 - [ ] 8 tablas visibles en phpMyAdmin
 
-- [ ] 2 vistas creadasSELECT * FROM MovimientoInventario WHERE descripcion LIKE '%ALERTA%';   - Métodos de pago Ecuador
+- [ ] 3 vistas creadas
 
 - [ ] 1 procedimiento almacenado
 
@@ -848,7 +839,7 @@ Funciones disponibles:
 
 2. Selecciona base `inventario_tienda`   ```   - Asegúrate de instalar **Apache** y **MySQL**
 
-3. Si no tiene tablas, importa de nuevo `sql/inventario_tienda.sql`
+3. Si no tiene tablas, importa de nuevo `sql/inventario_tienda_COMPLETO.sql`
 
 ---
 
@@ -928,7 +919,7 @@ Funciones disponibles:
 
 | 2 reportes | ✅ 100% | `stock_minimo.php` (VISTA), `ventas.php` (SP) |
 
-| Vistas SQL | ✅ 200% | 2 vistas implementadas y usadas |   - Haz clic en **Start** junto a **Apache**
+| Vistas SQL | ✅ 300% | 3 vistas implementadas y usadas |
 
 | Stored Procedures | ✅ 100% | 1 SP con 2 conjuntos de resultados |
 
@@ -992,7 +983,7 @@ Funciones disponibles:
 
 - ✅ **Dashboard Personalizado**: Muestra solo módulos permitidos
 
-│   │   ├── crear.php                    (marca + IVA)   - Navega hasta: `C:\xampp\htdocs\Proyecto_PHP\sql\inventario_tienda.sql`
+   - Navega hasta: `C:\xampp\htdocs\Proyecto_PHP\sql\inventario_tienda_COMPLETO.sql`
 
 ---
 
@@ -1052,11 +1043,9 @@ Funciones disponibles:
 
 
 
-## 🚀 ESTADO DEL PROYECTO├── INDEX.PHP                            ⭐ Página principal     - Telefono_Cliente
+## 🚀 ESTADO DEL PROYECTO
 
-
-
-### ✅ SISTEMA 100% COMPLETO Y FUNCIONAL├── INSTALACION_RAPIDA.md                📖 Guía de instalación   - También deberías ver **2 vistas** y **1 procedimiento**
+### ✅ SISTEMA 100% COMPLETO Y FUNCIONAL
 
 
 
@@ -1064,7 +1053,7 @@ Funciones disponibles:
 
 - ✅ 8 tablas con datos de prueba
 
-- ✅ 2 vistas SQL funcionales└── README.md                            📖 Este archivo
+- ✅ 3 vistas SQL funcionales
 
 - ✅ 1 stored procedure usado en reportes
 
@@ -1196,7 +1185,7 @@ Para comenzar:  - Sugiere cantidad de pedido2. Verifica que MySQL esté en **ver
 
 - [x] Charset UTF-8 (utf8mb4)2. Selecciona base de datos `inventario_tienda`
 
-3. Si no tiene tablas, importa de nuevo el archivo `sql/inventario_tienda.sql`
+3. Si no tiene tablas, importa de nuevo el archivo `sql/inventario_tienda_COMPLETO.sql`
 
 ---4. Asegúrate de que el archivo se importó completamente (busca mensaje de éxito)
 
@@ -1270,11 +1259,9 @@ Para comenzar:  - Sugiere cantidad de pedido2. Verifica que MySQL esté en **ver
 
 
 
-## 🔧 CONFIGURACIÓN- **2 Vistas SQL**: 
+## 🔧 CONFIGURACIÓN
 
-  - `vista_stock_bajo`: Usada en reporte de stock mínimo
-
-### Conexión a Base de Datos  - `vista_ventas_completas`: Disponible para consultas
+### Conexión a Base de Datos
 
 **Archivo**: `config/conexion.php`  
 
@@ -1312,13 +1299,13 @@ El sistema utiliza las siguientes tablas:
 
 - [ ] 3 vistas creadas- **Cliente**: Información de clientes
 
-- [ ] 1 Stored Procedure creado- **Telefono_Cliente**: Teléfonos de clientes (relación 1:N)
+- [ ] 1 Stored Procedure creado
 
-- [ ] 1 Trigger creado- **FacturaVenta**: Facturas de ventas
+- [ ] 1 Trigger creado
 
-- [ ] Página principal carga: `http://localhost/Proyecto_PHP/`- **DetalleVenta**: Detalle de productos vendidos
+- [ ] Página principal carga: `http://localhost/Proyecto_PHP/`
 
-- [ ] Hay 10 productos de ejemplo- **MovimientoInventario**: Registro de entradas/salidas de stock
+- [ ] Hay productos de ejemplo
 
 - [ ] Hay 6 clientes de ejemplo
 

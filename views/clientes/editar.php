@@ -4,7 +4,6 @@ require_once '../../config/auth.php';
 require_once '../../config/conexion.php';
 require_once '../../models/Cliente.php';
 
-// Requiere autenticación y permiso para editar clientes
 requierePermiso('clientes_editar');
 
 $database = new Conexion();
@@ -16,7 +15,6 @@ $mostrarFormulario = false;
 $clienteNoEncontrado = false;
 $error = "";
 
-// Buscar cliente por ID
 if(isset($_GET['id'])) {
     $cliente->id = $_GET['id'];
     if($cliente->obtenerPorId()) {
@@ -26,7 +24,6 @@ if(isset($_GET['id'])) {
     }
 }
 
-// Eliminar cliente
 if(isset($_GET['eliminar']) && isset($_GET['id'])) {
     $cliente->id = $_GET['id'];
     if($cliente->eliminar()) {
@@ -37,7 +34,6 @@ if(isset($_GET['eliminar']) && isset($_GET['id'])) {
     }
 }
 
-// Actualizar cliente
 if($_POST) {
     $cliente->id = $_POST['id'];
     $cliente->tipo_identificacion = $_POST['tipo_identificacion'];
@@ -58,7 +54,6 @@ if($_POST) {
     }
 }
 
-// Lista de provincias de Ecuador
 $provincias = [
     'Azuay', 'Bolívar', 'Cañar', 'Carchi', 'Chimborazo', 'Cotopaxi', 
     'El Oro', 'Esmeraldas', 'Galápagos', 'Guayas', 'Imbabura', 'Loja', 
@@ -111,7 +106,6 @@ $provincias = [
         <?php endif; ?>
 
         <?php if(!$mostrarFormulario): ?>
-        <!-- Selector de Cliente -->
         <div class="card shadow-sm mb-4">
             <div class="card-body">
                 <h5>Seleccione el Cliente a Editar</h5>
@@ -181,7 +175,6 @@ $provincias = [
         </div>
         <?php else: ?>
 
-        <!-- Formulario de Edición -->
         <div class="card shadow-sm">
             <div class="card-body">
                 <form method="POST" action="">

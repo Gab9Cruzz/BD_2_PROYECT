@@ -1,8 +1,4 @@
 <?php
-/**
- * Modelo Proveedor
- * Gestiona las operaciones de proveedores
- */
 
 class Proveedor {
     private $conn;
@@ -22,9 +18,6 @@ class Proveedor {
         $this->conn = $db;
     }
 
-    /**
-     * Obtener todos los proveedores
-     */
     public function obtenerTodos() {
         $query = "SELECT * FROM " . $this->table . " ORDER BY nombre ASC";
         

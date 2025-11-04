@@ -5,13 +5,11 @@ date_default_timezone_set('America/Guayaquil');
 require_once '../../config/auth.php';
 require_once '../../config/conexion.php';
 
-// Requiere autenticación y permiso para ver reportes de ventas
 requierePermiso('reportes_ventas');
 
 $database = new Conexion();
 $db = $database->getConnection();
 
-// Obtener fechas del formulario o usar valores por defecto
 $fecha_inicio = isset($_GET['fecha_inicio']) ? $_GET['fecha_inicio'] : date('Y-m-01');
 $fecha_fin = isset($_GET['fecha_fin']) ? $_GET['fecha_fin'] : date('Y-m-d');
 
@@ -25,14 +23,11 @@ if(isset($_GET['generar'])) {
     $stmt->bindParam(':fecha_fin', $fecha_fin);
     $stmt->execute();
     
-    // Primer resultado: lista de ventas
     $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
     
-    // Segundo resultado: estadísticas
     $stmt->nextRowset();
     $estadisticas = $stmt->fetch(PDO::FETCH_ASSOC);
     
-    // Cerrar el cursor para permitir nuevas queries
     $stmt->closeCursor();
 }
 ?>
@@ -91,7 +86,6 @@ if(isset($_GET['generar'])) {
             </div>
         </div>
 
-        <!-- Formulario de filtros -->
         <div class="card shadow-sm mb-4 no-print">
             <div class="card-body">
                 <form method="GET" action="">
@@ -117,7 +111,6 @@ if(isset($_GET['generar'])) {
         </div>
 
         <?php if($result): ?>
-            <!-- Tarjetas de estadísticas -->
             <?php if($estadisticas && isset($estadisticas['total_facturas'])): ?>
             <div class="row mb-4">
                 <div class="col-md-3">

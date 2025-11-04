@@ -8,7 +8,6 @@ require_once '../../models/FacturaVenta.php';
 require_once '../../models/Cliente.php';
 require_once '../../models/Producto.php';
 
-// Requiere autenticación y permiso para generar ventas
 requierePermiso('ventas_generar');
 
 $database = new Conexion();
@@ -22,10 +21,8 @@ $mensaje = "";
 $error = "";
 $id_factura_creada = null;
 
-// Procesar la venta
 if($_POST && isset($_POST['generar_venta'])) {
     try {
-        // Validar que haya productos
         if(empty($_POST['productos']) || empty($_POST['cantidades']) || empty($_POST['precios'])) {
             throw new Exception("Debe agregar al menos un producto a la venta");
         }
@@ -37,7 +34,6 @@ if($_POST && isset($_POST['generar_venta'])) {
         $factura->estado = 'pagada';
         $factura->observaciones = '';
         
-        // Preparar detalles de venta
         $detalles = [];
         $subtotal_total = 0;
         $iva_total = 0;
@@ -75,7 +71,6 @@ if($_POST && isset($_POST['generar_venta'])) {
         $factura->iva_total = $iva_total;
         $factura->total = $subtotal_total + $iva_total;
         
-        // Crear la venta
         $id_factura_creada = $factura->crearVenta($detalles);
         
         if($id_factura_creada) {

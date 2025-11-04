@@ -1,8 +1,4 @@
 <?php
-/**
- * Modelo Usuario
- * Gestiona autenticación y operaciones de usuarios
- */
 
 class Usuario {
     private $conn;
@@ -16,16 +12,10 @@ class Usuario {
     public $rol;
     public $activo;
 
-    /**
-     * Constructor
-     */
     public function __construct($db) {
         $this->conn = $db;
     }
 
-    /**
-     * Autenticar usuario
-     */
     public function login($usuario, $password) {
         try {
             $query = "SELECT id, usuario, password, nombre_completo, email, rol, activo 
@@ -61,9 +51,6 @@ class Usuario {
         }
     }
 
-    /**
-     * Actualizar último acceso
-     */
     private function actualizarUltimoAcceso($id) {
         try {
             $query = "UPDATE " . $this->table . " 
@@ -78,9 +65,6 @@ class Usuario {
         }
     }
 
-    /**
-     * Verificar si el usuario tiene permiso para un módulo
-     */
     public static function tienePermiso($rol, $modulo) {
         $permisos = [
             'admin' => [
@@ -102,9 +86,6 @@ class Usuario {
         return isset($permisos[$rol]) && in_array($modulo, $permisos[$rol]);
     }
 
-    /**
-     * Obtener todos los usuarios
-     */
     public function obtenerTodos() {
         $query = "SELECT id, usuario, nombre_completo, email, rol, activo, 
                          fecha_creacion, ultimo_acceso 

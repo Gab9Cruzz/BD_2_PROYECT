@@ -1,7 +1,6 @@
 <?php
 session_start();
 
-// Si ya está autenticado, redirigir al index
 if(isset($_SESSION['usuario_id'])) {
     header('Location: ../index.php');
     exit();
@@ -9,7 +8,6 @@ if(isset($_SESSION['usuario_id'])) {
 
 $error = '';
 
-// Procesar login
 if($_SERVER['REQUEST_METHOD'] === 'POST') {
     require_once '../config/conexion.php';
     require_once '../models/Usuario.php';
@@ -27,13 +25,11 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
         $resultado = $usuarioModel->login($usuario, $password);
         
         if($resultado) {
-            // Guardar datos en sesión
             $_SESSION['usuario_id'] = $resultado['id'];
             $_SESSION['usuario'] = $resultado['usuario'];
             $_SESSION['nombre_completo'] = $resultado['nombre_completo'];
             $_SESSION['rol'] = $resultado['rol'];
             
-            // Redirigir al index
             header('Location: ../index.php');
             exit();
         } else {

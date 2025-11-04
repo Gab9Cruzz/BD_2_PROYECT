@@ -3,13 +3,11 @@ session_start();
 require_once '../../config/auth.php';
 require_once '../../config/conexion.php';
 
-// Requiere autenticación y permiso para ver reportes de stock
 requierePermiso('reportes_stock');
 
 $database = new Conexion();
 $db = $database->getConnection();
 
-// Usar la VISTA mejorada en lugar del modelo
 $query = "SELECT * FROM vista_stock_bajo";
 $stmt = $db->prepare($query);
 $stmt->execute();

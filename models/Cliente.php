@@ -1,8 +1,4 @@
 <?php
-/**
- * Modelo Cliente
- * Gestiona las operaciones CRUD de clientes
- */
 
 class Cliente {
     private $conn;
@@ -19,9 +15,6 @@ class Cliente {
     public $ciudad;
     public $provincia;
 
-    /**
-     * Constructor
-     */
     public function __construct($db) {
         $this->conn = $db;
     }

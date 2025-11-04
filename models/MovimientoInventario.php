@@ -1,8 +1,4 @@
 <?php
-/**
- * Modelo MovimientoInventario
- * Gestiona los movimientos de stock (entradas y salidas)
- */
 
 class MovimientoInventario {
     private $conn;

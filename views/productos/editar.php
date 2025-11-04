@@ -6,7 +6,6 @@ require_once '../../models/Producto.php';
 require_once '../../models/Categoria.php';
 require_once '../../models/Proveedor.php';
 
-// Requiere autenticación y permiso para editar productos
 requierePermiso('productos_editar');
 
 $database = new Conexion();
@@ -20,7 +19,6 @@ $mostrarFormulario = false;
 $productoNoEncontrado = false;
 $error = "";
 
-// Buscar producto por ID
 if(isset($_GET['id'])) {
     $producto->id = $_GET['id'];
     if($producto->obtenerPorId()) {
@@ -30,7 +28,6 @@ if(isset($_GET['id'])) {
     }
 }
 
-// Eliminar producto
 if(isset($_GET['eliminar']) && isset($_GET['id'])) {
     $producto->id = $_GET['id'];
     if($producto->eliminar()) {
@@ -41,7 +38,6 @@ if(isset($_GET['eliminar']) && isset($_GET['id'])) {
     }
 }
 
-// Actualizar producto
 if($_POST) {
     $producto->id = $_POST['id'];
     $producto->codigo = $_POST['codigo'];
@@ -111,7 +107,6 @@ $proveedores = $proveedor->obtenerTodos();
         <?php endif; ?>
 
         <?php if(!$mostrarFormulario): ?>
-        <!-- Selector de Producto -->
         <div class="card shadow-sm mb-4">
             <div class="card-body">
                 <h5>Seleccione el Producto a Editar</h5>
@@ -181,7 +176,6 @@ $proveedores = $proveedor->obtenerTodos();
         </div>
         <?php else: ?>
 
-        <!-- Formulario de Edición -->
         <div class="card shadow-sm">
             <div class="card-body">
                 <form method="POST" action="">

@@ -6,7 +6,6 @@ require_once '../../models/Producto.php';
 require_once '../../models/Categoria.php';
 require_once '../../models/Proveedor.php';
 
-// Requiere autenticación y permiso para crear productos
 requierePermiso('productos_crear');
 
 $database = new Conexion();
@@ -18,9 +17,7 @@ $proveedor = new Proveedor($db);
 
 $error = "";
 
-// Procesar formulario
 if($_POST) {
-    // Generar código automático
     $codigo = 'PROD' . str_pad(rand(1, 9999), 4, '0', STR_PAD_LEFT);
     
     $producto->codigo = $codigo;

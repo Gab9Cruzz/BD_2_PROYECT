@@ -4,7 +4,6 @@ require_once '../../config/auth.php';
 require_once '../../config/conexion.php';
 require_once '../../models/Cliente.php';
 
-// Requiere autenticación y permiso para crear clientes
 requierePermiso('clientes_crear');
 
 $database = new Conexion();
@@ -14,7 +13,6 @@ $cliente = new Cliente($db);
 
 $error = "";
 
-// Procesar formulario
 if($_POST) {
     $cliente->tipo_identificacion = $_POST['tipo_identificacion'];
     $cliente->numero_identificacion = $_POST['numero_identificacion'];
@@ -34,7 +32,6 @@ if($_POST) {
     }
 }
 
-// Lista de provincias de Ecuador
 $provincias = [
     'Azuay', 'Bolívar', 'Cañar', 'Carchi', 'Chimborazo', 'Cotopaxi', 
     'El Oro', 'Esmeraldas', 'Galápagos', 'Guayas', 'Imbabura', 'Loja', 

@@ -2,7 +2,6 @@
 session_start();
 require_once 'config/auth.php';
 
-// Requerir autenticación para acceder al sistema
 requiereAutenticacion();
 
 $usuario = obtenerUsuario();
@@ -13,15 +12,11 @@ $usuario = obtenerUsuario();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sistema de Inventario - Tienda de Ropa</title>
-    <!-- Bootstrap 5 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Bootstrap Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
-    <!-- Custom CSS -->
     <link rel="stylesheet" href="public/css/style.css">
 </head>
 <body>
-    <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
         <div class="container-fluid">
             <a class="navbar-brand" href="index.php">
@@ -72,10 +67,6 @@ $usuario = obtenerUsuario();
                             <?php if(tienePermiso('reportes_ventas')): ?>
                             <li><a class="dropdown-item" href="views/reportes/ventas.php">Reporte de Ventas</a></li>
                             <?php endif; ?>
-                            
-                            <?php if(tienePermiso('reportes_stock')): ?>
-                            <li><a class="dropdown-item" href="views/reportes/stock_minimo.php">Reporte Stock Mínimo</a></li>
-                            <?php endif; ?>
                         </ul>
                     </li>
                     
@@ -100,10 +91,8 @@ $usuario = obtenerUsuario();
         </div>
     </nav>
 
-    <!-- Main Content -->
     <div class="container-fluid mt-4">
         <div class="row">
-            <!-- Hero Section -->
             <div class="col-12 mb-4">
                 <div class="card bg-gradient-primary text-white">
                     <div class="card-body text-center py-5">
@@ -117,7 +106,6 @@ $usuario = obtenerUsuario();
                 </div>
             </div>
 
-            <!-- Dashboard Cards - Según permisos del rol -->
             <?php if(tienePermiso('productos_crear')): ?>
             <div class="col-md-6 col-lg-4 mb-4">
                 <div class="card border-0 shadow-sm h-100 card-hover">
@@ -220,24 +208,6 @@ $usuario = obtenerUsuario();
             </div>
             <?php endif; ?>
 
-            <?php if(tienePermiso('reportes_stock')): ?>
-            <div class="col-md-6 col-lg-4 mb-4">
-                <div class="card border-0 shadow-sm h-100 card-hover">
-                    <div class="card-body text-center">
-                        <div class="icon-circle bg-warning-soft mb-3">
-                            <i class="bi bi-exclamation-triangle fs-1 text-warning"></i>
-                        </div>
-                        <h5 class="card-title">Reporte Stock Mínimo</h5>
-                        <p class="card-text text-muted">Reporte de datos</p>
-                        <a href="views/reportes/stock_minimo.php" class="btn btn-outline-warning btn-sm">
-                            Ver Reporte <i class="bi bi-arrow-right"></i>
-                        </a>
-                    </div>
-                </div>
-            </div>
-            <?php endif; ?>
-
-            <!-- Quick Actions - Según rol -->
             <div class="col-12">
                 <div class="card border-0 shadow-sm">
                     <div class="card-header bg-white">
@@ -301,12 +271,6 @@ $usuario = obtenerUsuario();
                                         <i class="bi bi-check-circle text-success"></i> Reporte de Ventas
                                     </a></li>
                                     <?php endif; ?>
-                                    
-                                    <?php if(tienePermiso('reportes_stock')): ?>
-                                    <li><a href="views/reportes/stock_minimo.php" class="text-decoration-none">
-                                        <i class="bi bi-check-circle text-success"></i> Reporte Stock Mínimo
-                                    </a></li>
-                                    <?php endif; ?>
                                 </ul>
                             </div>
                             <?php endif; ?>
@@ -331,7 +295,6 @@ $usuario = obtenerUsuario();
         </div>
     </div>
 
-    <!-- Footer -->
     <footer class="mt-5 py-4 bg-light text-center">
         <div class="container">
             <p class="text-muted mb-0">
@@ -340,7 +303,6 @@ $usuario = obtenerUsuario();
         </div>
     </footer>
 
-    <!-- Bootstrap 5 JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

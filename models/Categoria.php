@@ -1,8 +1,4 @@
 <?php
-/**
- * Modelo Categoria
- * Gestiona las operaciones de categorías
- */
 
 class Categoria {
     private $conn;
@@ -16,9 +12,6 @@ class Categoria {
         $this->conn = $db;
     }
 
-    /**
-     * Obtener todas las categorías
-     */
     public function obtenerTodos() {
         $query = "SELECT * FROM " . $this->table . " ORDER BY nombre ASC";
         
