@@ -1,408 +1,708 @@
-# 🏪 Sistema de Inventario para Tienda de Ropa
+# 🏪 Sistema de Inventario para Tienda de Ropa# 🏪 Sistema de Inventario para Tienda de Ropa
 
 
 
-**Versión**: 3.0 COMPLETA CON AUTENTICACIÓN  ## Ecuador - USD ($) - IVA 15%
+**País**: Ecuador 🇪🇨  
 
-**Ecuador** 🇪🇨 - USD ($) - IVA 15%  
+**Moneda**: USD ($)  
 
-**Base de Datos**: MySQL 8.0  ## Ecuador - USD ($) - IVA 15%
+**IVA**: 15%  **Versión**: 3.0 COMPLETA CON AUTENTICACIÓN  ## Ecuador - USD ($) - IVA 15%
+
+**Base de Datos**: MySQL 8.0  
+
+**Backend**: PHP 8.2 con PDO  **Ecuador** 🇪🇨 - USD ($) - IVA 15%  
+
+**Frontend**: Bootstrap 5.3  
+
+**Versión**: 2.0 COMPLETA  **Base de Datos**: MySQL 8.0  ## Ecuador - USD ($) - IVA 15%
+
+**Fecha**: Octubre 2025
 
 **Backend**: PHP 8.2 con PDO  
 
+---
+
 **Frontend**: Bootstrap 5.3  **Versión**: 2.0 COMPLETA  
 
+## 📋 Descripción
+
 **Fecha**: Octubre 2025
+
+Sistema web desarrollado en PHP puro y MySQL para gestionar el inventario de una tienda de ropa. Cumple con el requerimiento académico de **2 pantallas de ingreso + 2 de actualización + 2 de reportes**.
 
 **Base de Datos**: MySQL 8.0  Sistema web desarrollado en PHP puro y MySQL para gestionar el inventario de una tienda de ropa. Cumple con el requerimiento académico de **2 pantallas de ingreso + 2 de actualización + 2 de reportes**.
 
 ---
 
+---
+
+## ✅ Características Principales
+
 **Backend**: PHP 8.x con PDO  
 
-## 📋 CARACTERÍSTICAS PRINCIPALES
+### 📥 Pantallas de Ingreso (2)
+
+1. **Crear Producto** - Registro de productos con código, nombre, marca, precio USD, IVA 15%, stock## 📋 CARACTERÍSTICAS PRINCIPALES
+
+2. **Crear Cliente** - Registro de clientes con identificación Ecuador (cédula/RUC/pasaporte), provincia
 
 **Frontend**: Bootstrap 5.3**Versión**: 2.0 COMPLETA  
 
-### ✅ Sistema de Autenticación y Roles
+### ✏️ Pantallas de Actualización (2)
+
+3. **Editar Producto** - Modificación y eliminación de productos### ✅ Sistema de Autenticación y Roles
+
+4. **Editar Cliente** - Modificación y eliminación de clientes
 
 - 🔐 **Login obligatorio** con control de sesiones PHP
 
-- 👨‍💼 **Rol Admin**: Acceso total a todos los módulos
+### 📊 Pantallas de Reportes (2)
+
+5. **Stock Bajo Mínimo** - Usa **VISTA SQL** para productos críticos- 👨‍💼 **Rol Admin**: Acceso total a todos los módulos
+
+6. **Ventas por Fechas** - Usa **STORED PROCEDURE** con estadísticas
 
 - 🛒 **Rol Vendedor**: Acceso limitado (crear productos, clientes y ventas)---**Fecha**: Octubre 2025  ## 📋 Características Principales
 
-- 🛡️ **Protección por permisos**: Cada vista verifica autenticación
+### 🗄️ Base de Datos Avanzada
 
-- 🚪 **Cierre de sesión** seguro con destrucción de sesiones
+- ✅ **8 Tablas normalizadas** (3FN): categorias, proveedores, productos, movimientos_inventario, clientes, facturas_venta, detalle_factura, usuarios- 🛡️ **Protección por permisos**: Cada vista verifica autenticación
 
-- ⚠️ **Página de acceso denegado** cuando no hay permisos
+- ✅ **3 Vistas SQL**: vista_productos_stock, vista_ventas_detalladas, vista_movimientos_inventario
+
+- ✅ **1 Stored Procedure**: sp_reporte_ventas_periodo (retorna 2 conjuntos de resultados)- 🚪 **Cierre de sesión** seguro con destrucción de sesiones
+
+- ✅ **1 Trigger**: trg_restock_automatico (alerta automática de re-stock AFTER UPDATE)
+
+- ✅ **Transacciones SQL**: Control ACID en operaciones críticas- ⚠️ **Página de acceso denegado** cuando no hay permisos
+
+- ✅ **6 Foreign Keys**: Con políticas ON DELETE (SET NULL, CASCADE, RESTRICT)
 
 ## 📋 CARACTERÍSTICAS PRINCIPALES**Base de Datos**: MySQL 8.0  
 
-### ✅ 6 Pantallas Funcionales (Requerimiento Académico)
+### 🇪🇨 Adaptado para Ecuador
 
-- ✅ **2 Pantallas de Ingreso**: Crear productos y clientes
-
-- ✅ **2 Pantallas de Actualización**: Editar productos y clientes (con eliminación)
-
-- ✅ **2 Pantallas de Reportes**: Stock bajo mínimo y ventas por fechas### ✅ Adaptado para Ecuador**Backend**: PHP 8.x con PDO  - ✅ **2 Pantallas de Ingreso**: Crear productos y clientes
-
-
-
-### ✅ Base de Datos Avanzada- 💵 Moneda: Dólares USD ($)
-
-- 📊 **8 Tablas normalizadas** (3FN)
-
-- 👁️ **3 Vistas SQL** para consultas optimizadas
-
-- ⚙️ **1 Stored Procedure** para reportes complejos
-
-- 🔔 **1 Trigger** para alertas automáticas de re-stock
-
-- 🔒 **Transacciones SQL** con control ACID
-
-- 🗺️ 24 provincias ecuatorianas- ✅ **2 Pantallas de Reportes**: Stock bajo mínimo y ventas por fechas
-
-### ✅ Adaptado 100% para Ecuador
-
-- 💵 **Moneda**: Dólares estadounidenses (USD $)- 💳 Métodos de pago locales
+- 💵 **Moneda**: Dólares estadounidenses (USD $)### ✅ 6 Pantallas Funcionales (Requerimiento Académico)
 
 - 🧾 **IVA**: 15% (estándar Ecuador)
 
-- 🆔 **Identificación**: Cédula (10 dígitos), RUC (13 dígitos), Pasaporte---- ✅ Base de datos normalizada (3FN) con 8 tablas
+- 🆔 **Identificación**: Cédula (10 dígitos), RUC (13 dígitos), Pasaporte- ✅ **2 Pantallas de Ingreso**: Crear productos y clientes
 
 - 🗺️ **Provincias**: 24 provincias ecuatorianas
 
-- 💳 **Métodos de Pago**: Efectivo, Tarjeta Débito/Crédito, Transferencia, Cheque### ✅ Funcionalidades
+- 💳 **Métodos de Pago**: Efectivo, Tarjeta Débito, Tarjeta Crédito, Transferencia Bancaria- ✅ **2 Pantallas de Actualización**: Editar productos y clientes (con eliminación)
 
 
 
----- 📦 Gestión de productos (con marca e IVA)- ✅ **Vistas SQL (2)**: Consultas complejas simplificadas
+---- ✅ **2 Pantallas de Reportes**: Stock bajo mínimo y ventas por fechas### ✅ Adaptado para Ecuador**Backend**: PHP 8.x con PDO  - ✅ **2 Pantallas de Ingreso**: Crear productos y clientes
 
 
 
-## 👥 USUARIOS DEL SISTEMA- 👥 Gestión de clientes (con datos Ecuador)
+## 🚀 Instalación Rápida
 
 
 
-### 🔑 Credenciales de Acceso- 🛒 Generación de ventas## 📋 CARACTERÍSTICAS PRINCIPALES- ✅ **Stored Procedures (1)**: Reporte de ventas optimizado
+### ✅ Requisitos Previos### ✅ Base de Datos Avanzada- 💵 Moneda: Dólares USD ($)
+
+- **XAMPP** instalado (Apache + MySQL + PHP 8.2)
+
+- **Navegador web** moderno (Chrome, Firefox, Edge)- 📊 **8 Tablas normalizadas** (3FN)
+
+- **10 minutos** de tu tiempo
+
+- 👁️ **3 Vistas SQL** para consultas optimizadas
+
+### 📦 Pasos de Instalación
+
+- ⚙️ **1 Stored Procedure** para reportes complejos
+
+#### 1️⃣ Iniciar XAMPP
+
+```bash- 🔔 **1 Trigger** para alertas automáticas de re-stock
+
+# Abre XAMPP Control Panel
+
+- Start Apache- 🔒 **Transacciones SQL** con control ACID
+
+- Start MySQL
+
+```- 🗺️ 24 provincias ecuatorianas- ✅ **2 Pantallas de Reportes**: Stock bajo mínimo y ventas por fechas
 
 
 
-| Usuario | Contraseña | Rol | Permisos |- 📊 Reportes avanzados SQL
-
-|---------|-----------|-----|----------|
-
-| `admin` | `admin` | Administrador | ✅ Acceso completo (7 módulos) |- 🔔 Alertas automáticas (Trigger)- ✅ **Transacciones SQL**: Control ACID en operaciones críticas
-
-| `vendedor1` | `vendedor` | Vendedor | ⚠️ Acceso limitado (3 módulos) |
-
-- 🗑️ Eliminación con validaciones
-
-### 📊 Tabla de Permisos por Rol
-
-### ✅ Adaptado 100% para Ecuador- ✅ Seguridad con PDO y Prepared Statements
-
-| Módulo | Admin | Vendedor |
-
-|--------|-------|----------|---
-
-| 🆕 Crear Producto | ✅ | ✅ |
-
-| ✏️ Editar Producto | ✅ | ❌ |- 💵 **Moneda**: Dólares estadounidenses (USD $)- ✅ Interfaz responsive con Bootstrap 5
-
-| 👤 Crear Cliente | ✅ | ✅ |
-
-| ✏️ Editar Cliente | ✅ | ❌ |## 🗄️ BASE DE DATOS
-
-| 🛒 Generar Venta | ✅ | ✅ |
-
-| 📊 Reporte Ventas | ✅ | ❌ |- 🧾 **IVA**: 15% (estándar Ecuador)- ✅ Gestión de múltiples teléfonos por cliente
-
-| ⚠️ Reporte Stock Mínimo | ✅ | ❌ |
-
-### Estructura
-
-- **8 Tablas**: categorias, proveedores, productos, movimientos_inventario, clientes, facturas_venta, detalle_factura, usuarios
-
-- **3 Vistas SQL**: vista_productos_stock, vista_ventas_detalladas, vista_movimientos_inventario
-
-### ✅ Requisitos Previos
-
-- **XAMPP** instalado (Apache + MySQL + PHP 8.2)- **1 Stored Procedure**: sp_reporte_ventas_fechas- 🗺️ **Provincias**: 24 provincias ecuatorianas## 🛠️ Tecnologías Utilizadas
-
-- **Navegador web** moderno (Chrome, Firefox, Edge)
-
-- **10 minutos** de tu tiempo- **1 Trigger**: tr_restock_producto (alerta automática)
-
-
-
-### 📦 Pasos de Instalación- **Normalización**: 3FN- 💳 **Métodos de Pago**: Efectivo, Tarjeta Débito, Tarjeta Crédito, Transferencia Bancaria, Depósito Bancario
-
-
-
-#### 1️⃣ Iniciar XAMPP- **Charset**: UTF-8 (utf8mb4)
+#### 2️⃣ Copiar el Proyecto### ✅ Adaptado 100% para Ecuador
 
 ```bash
 
-# Abre XAMPP Control Panel- **Backend**: PHP 8.2 (puro, sin frameworks)
+# Copia la carpeta del proyecto a:- 💵 **Moneda**: Dólares estadounidenses (USD $)- 💳 Métodos de pago locales
 
-- Start Apache
+C:\xampp\htdocs\Proyecto_PHP\
 
-- Start MySQL---
+```- 🧾 **IVA**: 15% (estándar Ecuador)
 
-```
 
-### ✅ Funcionalidades Implementadas- **Base de Datos**: MySQL
 
-#### 2️⃣ Copiar el Proyecto
-
-```bash## 🖥️ PANTALLAS DEL SISTEMA
-
-# Copia la carpeta del proyecto a:
-
-C:\xampp\htdocs\Proyecto_PHP\- 📦 Gestión completa de productos (con marca e IVA)- **Frontend**: HTML5, CSS3, Bootstrap 5, JavaScript
+La estructura debe quedar:- 🆔 **Identificación**: Cédula (10 dígitos), RUC (13 dígitos), Pasaporte---- ✅ Base de datos normalizada (3FN) con 8 tablas
 
 ```
 
-### Ingreso de Datos (2)
+C:\xampp\htdocs\Proyecto_PHP\index.php- 🗺️ **Provincias**: 24 provincias ecuatorianas
+
+C:\xampp\htdocs\Proyecto_PHP\config\conexion.php
+
+C:\xampp\htdocs\Proyecto_PHP\models\- 💳 **Métodos de Pago**: Efectivo, Tarjeta Débito/Crédito, Transferencia, Cheque### ✅ Funcionalidades
+
+C:\xampp\htdocs\Proyecto_PHP\views\
+
+C:\xampp\htdocs\Proyecto_PHP\sql\inventario_tienda_COMPLETO.sql
+
+```
+
+---- 📦 Gestión de productos (con marca e IVA)- ✅ **Vistas SQL (2)**: Consultas complejas simplificadas
 
 #### 3️⃣ Crear Base de Datos
 
-1. Abre tu navegador: `http://localhost/phpmyadmin`1. **Crear Producto** - Con marca e IVA- 👥 Gestión completa de clientes (con datos Ecuador)- **Servidor Local**: XAMPP
+1. Abre tu navegador: `http://localhost/phpmyadmin`
 
-2. Clic en **"Nuevo"**
+2. Clic en **"Nuevo"** (panel izquierdo)
 
-3. Nombre: `inventario_tienda`2. **Crear Cliente** - Con identificación Ecuador
+3. Nombre: `inventario_tienda`## 👥 USUARIOS DEL SISTEMA- 👥 Gestión de clientes (con datos Ecuador)
 
 4. Cotejamiento: `utf8mb4_unicode_ci`
 
-5. Clic en **"Crear"**- 🛒 Generación de ventas con múltiples productos- **Arquitectura**: MVC simplificado
+5. Clic en **"Crear"**
 
 
 
-#### 4️⃣ Importar SQL### Actualización (2)
+#### 4️⃣ Importar SQL### 🔑 Credenciales de Acceso- 🛒 Generación de ventas## 📋 CARACTERÍSTICAS PRINCIPALES- ✅ **Stored Procedures (1)**: Reporte de ventas optimizado
 
-1. Selecciona base de datos `inventario_tienda`
+1. Selecciona base de datos `inventario_tienda` (panel izquierdo)
 
 2. Ve a pestaña **"Importar"**
 
-3. Selecciona archivo: `sql/inventario_tienda_COMPLETO.sql`
+3. Clic en **"Seleccionar archivo"**
 
-4. Clic en **"Continuar"**
+4. Navega hasta: `C:\xampp\htdocs\Proyecto_PHP\sql\inventario_tienda_COMPLETO.sql`| Usuario | Contraseña | Rol | Permisos |- 📊 Reportes avanzados SQL
 
-5. Espera mensaje: ✅ "Importación finalizada correctamente"
+5. Clic en **"Continuar"**
 
-- 🔔 Sistema de alertas automáticas (Trigger de re-stock)
-
-#### 5️⃣ Acceder al Sistema
-
-```### Reportes (2)
-
-http://localhost/Proyecto_PHP/
-
-```5. **Stock Bajo Mínimo** - Usa VISTA SQL- 🗑️ Botones de eliminación con validaciones## 📁 Estructura del Proyecto
-
-**Se redirigirá automáticamente al login** 🔐
-
-6. **Ventas por Fechas** - Usa STORED PROCEDURE
-
----
+6. Espera mensaje: ✅ **"Importación finalizada correctamente"**|---------|-----------|-----|----------|
 
 
 
-## 📂 ESTRUCTURA DEL PROYECTO
+#### 5️⃣ Verificar Importación| `admin` | `admin` | Administrador | ✅ Acceso completo (7 módulos) |- 🔔 Alertas automáticas (Trigger)- ✅ **Transacciones SQL**: Control ACID en operaciones críticas
 
-### Extra
+En phpMyAdmin, deberías ver **8 tablas**:
+
+- categorias| `vendedor1` | `vendedor` | Vendedor | ⚠️ Acceso limitado (3 módulos) |
+
+- proveedores
+
+- productos- 🗑️ Eliminación con validaciones
+
+- movimientos_inventario
+
+- clientes### 📊 Tabla de Permisos por Rol
+
+- facturas_venta
+
+- detalle_factura### ✅ Adaptado 100% para Ecuador- ✅ Seguridad con PDO y Prepared Statements
+
+- usuarios
+
+| Módulo | Admin | Vendedor |
+
+#### 6️⃣ Acceder al Sistema
+
+Abre tu navegador y ve a:|--------|-------|----------|---
 
 ```
 
-Proyecto_PHP/7. **Generar Venta** - Con métodos de pago Ecuador---```
+http://localhost/Proyecto_PHP/index.php| 🆕 Crear Producto | ✅ | ✅ |
 
-├── 📁 auth/                           ⭐ AUTENTICACIÓN
+```
 
-│   ├── login.php                      # Inicio de sesión
+| ✏️ Editar Producto | ✅ | ❌ |- 💵 **Moneda**: Dólares estadounidenses (USD $)- ✅ Interfaz responsive con Bootstrap 5
 
-│   ├── logout.php                     # Cerrar sesión
+**¡Listo!** Deberías ver la página principal con las 6 pantallas del sistema.
 
-│   └── sin_permiso.php                # Acceso denegado---Proyecto_PHP/
+| 👤 Crear Cliente | ✅ | ✅ |
+
+---
+
+| ✏️ Editar Cliente | ✅ | ❌ |## 🗄️ BASE DE DATOS
+
+## 📂 Estructura del Proyecto
+
+| 🛒 Generar Venta | ✅ | ✅ |
+
+```
+
+Proyecto_PHP/| 📊 Reporte Ventas | ✅ | ❌ |- 🧾 **IVA**: 15% (estándar Ecuador)- ✅ Gestión de múltiples teléfonos por cliente
 
 │
 
-├── 📁 config/                         # CONFIGURACIÓN
+├── sql/| ⚠️ Reporte Stock Mínimo | ✅ | ❌ |
 
-│   ├── auth.php                       # Funciones de autenticación
+│   └── inventario_tienda_COMPLETO.sql  ⭐ Archivo SQL único
 
-│   └── conexion.php                   # Conexión PDO a MySQL## 🚀 INSTALACIÓN## 🗄️ ESTRUCTURA DE BASE DE DATOS├── config/
+│### Estructura
+
+├── config/
+
+│   └── conexion.php                     Conexión PDO a MySQL- **8 Tablas**: categorias, proveedores, productos, movimientos_inventario, clientes, facturas_venta, detalle_factura, usuarios
 
 │
 
-├── 📁 models/                         # MODELOS (Lógica de negocio)
+├── models/- **3 Vistas SQL**: vista_productos_stock, vista_ventas_detalladas, vista_movimientos_inventario
 
-│   ├── Usuario.php                    # Gestión de usuarios y permisos
+│   ├── Cliente.php                      (con campos Ecuador)
 
-│   ├── Producto.php                   # Gestión de productos### Pasos Rápidos│   └── conexion.php          # Conexión PDO a la base de datos
+│   ├── Producto.php                     (con marca e IVA)### ✅ Requisitos Previos
 
-│   ├── Cliente.php                    # Gestión de clientes
+│   ├── FacturaVenta.php                 (con transacciones)
 
-│   ├── FacturaVenta.php               # Gestión de ventas
+│   ├── Categoria.php- **XAMPP** instalado (Apache + MySQL + PHP 8.2)- **1 Stored Procedure**: sp_reporte_ventas_fechas- 🗺️ **Provincias**: 24 provincias ecuatorianas## 🛠️ Tecnologías Utilizadas
 
-│   ├── Categoria.php                  # Categorías
+│   ├── Proveedor.php
 
-│   ├── Proveedor.php                  # Proveedores1. **Iniciar XAMPP**### 8 Tablas Principales├── models/
+│   └── MovimientoInventario.php- **Navegador web** moderno (Chrome, Firefox, Edge)
 
-│   └── MovimientoInventario.php       # Movimientos de stock
+│
 
-│   - Start Apache + MySQL
+├── views/- **10 minutos** de tu tiempo- **1 Trigger**: tr_restock_producto (alerta automática)
 
-├── 📁 views/                          # VISTAS (Interfaz)
+│   ├── productos/
 
-│   ├── productos/1. **Proveedor** - Proveedores de productos│   ├── Producto.php          # Modelo de productos
+│   │   ├── crear.php                    ✅ INGRESO: Crear producto
 
-│   │   ├── crear.php                  # [Admin + Vendedor]
+│   │   └── editar.php                   ✅ ACTUALIZACIÓN: Editar producto
 
-│   │   └── editar.php                 # [Solo Admin]2. **Importar BD**
+│   │### 📦 Pasos de Instalación- **Normalización**: 3FN- 💳 **Métodos de Pago**: Efectivo, Tarjeta Débito, Tarjeta Crédito, Transferencia Bancaria, Depósito Bancario
 
 │   ├── clientes/
 
-│   │   ├── crear.php                  # [Admin + Vendedor]   - phpMyAdmin → Importar2. **Categoria** - Categorías de ropa│   ├── Cliente.php           # Modelo de clientes
+│   │   ├── crear.php                    ✅ INGRESO: Crear cliente
 
-│   │   └── editar.php                 # [Solo Admin]
+│   │   └── editar.php                   ✅ ACTUALIZACIÓN: Editar cliente
 
-│   ├── ventas/   - Archivo: `sql/inventario_tienda_COMPLETO.sql`
+│   │#### 1️⃣ Iniciar XAMPP- **Charset**: UTF-8 (utf8mb4)
 
-│   │   └── generar.php                # [Admin + Vendedor]
+│   └── reportes/
 
-│   └── reportes/3. **Producto** - Productos con marca, precio USD, IVA 15%│   ├── FacturaVenta.php      # Modelo de ventas
+│       ├── stock_minimo.php             ✅ REPORTE: Stock bajo mínimo (VISTA)```bash
 
-│       ├── ventas.php                 # [Solo Admin]
+│       └── ventas.php                   ✅ REPORTE: Ventas por fechas (SP)
 
-│       └── stock_minimo.php           # [Solo Admin]3. **Acceder**
+│# Abre XAMPP Control Panel- **Backend**: PHP 8.2 (puro, sin frameworks)
 
-│
+├── public/
 
-├── 📁 public/                         # RECURSOS PÚBLICOS   - `http://localhost/Proyecto_PHP/`4. **Cliente** - Clientes con identificación Ecuador│   ├── MovimientoInventario.php
+│   ├── css/- Start Apache
 
-│   ├── css/
+│   │   └── style.css
 
-│   │   └── style.css                  # Estilos personalizados
+│   └── js/- Start MySQL---
 
-│   └── js/
+│       └── main.js
 
-│       └── main.js                    # JavaScript
+│```
 
-│
+├── index.php                            ⭐ Página principal
 
-├── 📁 sql/
+│### ✅ Funcionalidades Implementadas- **Base de Datos**: MySQL
 
-│   └── inventario_tienda_COMPLETO.sql # ⭐ Script completo unificado
+├── README.md                            📖 Este archivo
 
-│
+└── DOCUMENTACION_SQL.md                 📖 Documentación técnica BD#### 2️⃣ Copiar el Proyecto
 
-├── INDEX.PHP                          # Dashboard principal
+```
 
-│
+```bash## 🖥️ PANTALLAS DEL SISTEMA
 
-└── 📚 DOCUMENTACIÓN
+---
 
-    ├── README.md                      # ⭐ Este archivo## 📂 ESTRUCTURA7. **DetalleVenta** - Productos vendidos por factura├── views/
+# Copia la carpeta del proyecto a:
 
-    ├── SISTEMA_AUTENTICACION.md       # Doc del sistema de login
+## 🗄️ Base de Datos
 
-    ├── GUIA_PRUEBAS_LOGIN.md          # Casos de prueba
+C:\xampp\htdocs\Proyecto_PHP\- 📦 Gestión completa de productos (con marca e IVA)- **Frontend**: HTML5, CSS3, Bootstrap 5, JavaScript
 
-    ├── ESTRUCTURA_VISUAL.md           # Diagramas del proyecto
+### 📊 Estructura de Tablas (8)
 
-    ├── REORGANIZACION_AUTH.md         # Cambios de estructura```8. **MovimientoInventario** - Movimientos de stock + alertas TRIGGER│   ├── productos/
+```
 
-    └── DOCUMENTACION_SQL.md           # Documentación de BD
+1. **categorias** - Categorías de productos
 
-```Proyecto_PHP/
+2. **proveedores** - Proveedores con RUC y datos Ecuador### Ingreso de Datos (2)
 
+3. **productos** - Inventario con código único, marca, precio USD, IVA 15%
 
+4. **movimientos_inventario** - Auditoría de movimientos (entrada/salida/ajuste)#### 3️⃣ Crear Base de Datos
 
----├── sql/│   │   ├── crear.php         # ✅ INGRESO: Crear producto
+5. **clientes** - Clientes con identificación Ecuador (cédula/RUC/pasaporte)
 
+6. **facturas_venta** - Cabecera de facturas con totales1. Abre tu navegador: `http://localhost/phpmyadmin`1. **Crear Producto** - Con marca e IVA- 👥 Gestión completa de clientes (con datos Ecuador)- **Servidor Local**: XAMPP
 
+7. **detalle_factura** - Líneas de productos vendidos con IVA
 
-## 🖥️ PANTALLAS DEL SISTEMA│   └── inventario_tienda_COMPLETO.sql  ⭐ Archivo SQL único
-
-
-
-### 🔐 Autenticación├── config/### 3 Vistas SQL│   │   └── editar.php        # ✅ ACTUALIZACIÓN: Editar producto
-
-0. **Login** (`auth/login.php`) - Inicio de sesión obligatorio
-
-│   └── conexion.php
-
-### 📥 Ingreso de Datos (2 pantallas)
-
-1. **Crear Producto** (`views/productos/crear.php`)├── models/- `vista_stock_bajo` - Productos con stock bajo el mínimo│   ├── clientes/
-
-   - Campos: Código, Nombre, Marca, Descripción, Precio USD, IVA %, Stock
-
-   - Permisos: Admin + Vendedor ✅│   ├── Cliente.php      (con campos Ecuador)
+8. **usuarios** - Usuarios del sistema (entidad aislada sin FK)2. Clic en **"Nuevo"**
 
 
 
-2. **Crear Cliente** (`views/clientes/crear.php`)│   ├── Producto.php     (con marca e IVA)- `vista_ventas_completas` - Resumen de ventas│   │   ├── crear.php         # ✅ INGRESO: Crear cliente
-
-   - Campos: Identificación Ecuador, Nombres, Teléfono, Email, Dirección, Provincia
-
-   - Permisos: Admin + Vendedor ✅│   └── ...
+### 👁️ Vistas SQL (3)3. Nombre: `inventario_tienda`2. **Crear Cliente** - Con identificación Ecuador
 
 
 
-### ✏️ Actualización de Datos (2 pantallas)├── views/- `vista_detalle_ventas` - **Detalle de productos con cálculo de IVA 15%**│   │   ├── editar.php        # ✅ ACTUALIZACIÓN: Editar cliente
+1. **vista_productos_stock** - Productos con estado de stock (Sin stock / Stock bajo / Stock normal)4. Cotejamiento: `utf8mb4_unicode_ci`
 
-3. **Editar Producto** (`views/productos/editar.php`)
+2. **vista_ventas_detalladas** - Resumen de ventas con información completa de clientes
 
-   - Selector integrado + Edición + Botón Eliminar│   ├── productos/
+3. **vista_movimientos_inventario** - Auditoría de movimientos con información del producto5. Clic en **"Crear"**- 🛒 Generación de ventas con múltiples productos- **Arquitectura**: MVC simplificado
 
-   - Permisos: Solo Admin ⚠️
 
-│   ├── clientes/│   │   ├── agregar_telefono.php
+
+### ⚙️ Stored Procedure (1)
+
+
+
+**sp_reporte_ventas_periodo(fecha_inicio, fecha_fin)**#### 4️⃣ Importar SQL### Actualización (2)
+
+- Retorna 2 conjuntos de resultados:
+
+  - Resultado 1: Lista detallada de ventas del período1. Selecciona base de datos `inventario_tienda`
+
+  - Resultado 2: Estadísticas agregadas (total facturas, subtotal, IVA, total general)
+
+2. Ve a pestaña **"Importar"**
+
+### 🔔 Trigger (1)
+
+3. Selecciona archivo: `sql/inventario_tienda_COMPLETO.sql`
+
+**trg_restock_automatico**
+
+- Se activa AFTER UPDATE cuando `stock_actual <= stock_minimo`4. Clic en **"Continuar"**
+
+- Registra movimiento de entrada automático en `movimientos_inventario`
+
+- Usuario: 'SISTEMA'5. Espera mensaje: ✅ "Importación finalizada correctamente"
+
+- Reabastece con (stock_minimo × 2) unidades
+
+- 🔔 Sistema de alertas automáticas (Trigger de re-stock)
+
+### 🔒 Características Avanzadas
+
+#### 5️⃣ Acceder al Sistema
+
+- ✅ Normalización 3FN
+
+- ✅ 6 Foreign Keys con integridad referencial```### Reportes (2)
+
+- ✅ Índices optimizados
+
+- ✅ Charset UTF-8 (utf8mb4_unicode_ci)http://localhost/Proyecto_PHP/
+
+- ✅ Transacciones ACID en operaciones críticas
+
+- ✅ Funciones de agregación: SUM(), AVG(), COUNT(), MIN(), MAX()```5. **Stock Bajo Mínimo** - Usa VISTA SQL- 🗑️ Botones de eliminación con validaciones## 📁 Estructura del Proyecto
+
+
+
+---**Se redirigirá automáticamente al login** 🔐
+
+
+
+## 🎯 Las 6 Pantallas Obligatorias6. **Ventas por Fechas** - Usa STORED PROCEDURE
+
+
+
+### 📥 Ingreso (2 pantallas)---
+
+
+
+1. **Crear Producto** (`views/productos/crear.php`)
+
+   - Formulario para registrar nuevos productos
+
+   - Campos: Código, Nombre, Marca, Descripción, Precio USD, IVA 15%, Stock Inicial, Stock Mínimo## 📂 ESTRUCTURA DEL PROYECTO
+
+   - Selección de categoría y proveedor
+
+### Extra
+
+2. **Crear Cliente** (`views/clientes/crear.php`)
+
+   - Formulario para registrar nuevos clientes```
+
+   - Campos: Tipo de Identificación (Cédula/RUC/Pasaporte), Número, Nombres, Dirección, Correo
+
+   - Selección de provincia ecuatorianaProyecto_PHP/7. **Generar Venta** - Con métodos de pago Ecuador---```
+
+
+
+### ✏️ Actualización (2 pantallas)├── 📁 auth/                           ⭐ AUTENTICACIÓN
+
+
+
+3. **Editar Producto** (`views/productos/editar.php`)│   ├── login.php                      # Inicio de sesión
+
+   - Selector integrado de productos
+
+   - Modificación de todos los campos│   ├── logout.php                     # Cerrar sesión
+
+   - **Botón Eliminar** con validación
+
+│   └── sin_permiso.php                # Acceso denegado---Proyecto_PHP/
 
 4. **Editar Cliente** (`views/clientes/editar.php`)
 
-   - Selector integrado + Edición + Botón Eliminar│   ├── reportes/
+   - Selector integrado de clientes│
 
-   - Permisos: Solo Admin ⚠️
+   - Modificación de todos los campos
 
-│   └── ventas/### 1 Stored Procedure│   │   └── eliminar_telefono.php
-
-### 📊 Reportes de Datos (2 pantallas)
-
-5. **Reporte Stock Bajo Mínimo** (`views/reportes/stock_minimo.php`)├── public/
-
-   - Usa: **VISTA SQL** `vista_stock_bajo`
-
-   - Muestra: Productos críticos con datos de proveedor│   ├── css/- `sp_reporte_ventas_fechas(fecha_inicio, fecha_fin)` - Reporte con estadísticas│   └── reportes/
-
-   - Permisos: Solo Admin ⚠️
-
-│   └── js/
-
-6. **Reporte de Ventas por Fechas** (`views/reportes/ventas.php`)
-
-   - Usa: **STORED PROCEDURE** `sp_reporte_ventas_periodo`├── INDEX.PHP            ⭐ Página principal│       ├── stock_minimo.php  # ✅ REPORTE: Stock bajo mínimo
-
-   - Filtro: Rango de fechas + Estadísticas
-
-   - Permisos: Solo Admin ⚠️├── README.md            📖 Este archivo
+   - **Botón Eliminar** con validación├── 📁 config/                         # CONFIGURACIÓN
 
 
 
-### 🛒 Extra├── INSTALACION.md       📖 Guía de instalación### 1 Trigger Automático│       └── ventas.php        # ✅ REPORTE: Ventas por fechas
+### 📊 Reportes (2 pantallas)│   ├── auth.php                       # Funciones de autenticación
 
-7. **Generar Venta** (`views/ventas/generar.php`)
 
-   - Selección de cliente + Productos + Métodos de pago Ecuador└── DOCUMENTACION_SQL.md 📖 Documentación técnica BD
 
-   - Cálculo automático de IVA 15%
+5. **Stock Bajo Mínimo** (`views/reportes/stock_minimo.php`)│   └── conexion.php                   # Conexión PDO a MySQL## 🚀 INSTALACIÓN## 🗄️ ESTRUCTURA DE BASE DE DATOS├── config/
 
-   - Permisos: Admin + Vendedor ✅```- `tr_restock_producto` - **Alerta automática cuando stock < stock_mínimo**├── public/
+   - Usa: **VISTA SQL** `vista_productos_stock`
+
+   - Muestra: Productos con stock crítico│
+
+   - Indicadores visuales de nivel de urgencia
+
+   - Información de proveedor para reposición├── 📁 models/                         # MODELOS (Lógica de negocio)
+
+
+
+6. **Ventas por Fechas** (`views/reportes/ventas.php`)│   ├── Usuario.php                    # Gestión de usuarios y permisos
+
+   - Usa: **STORED PROCEDURE** `sp_reporte_ventas_periodo`
+
+   - Filtro por rango de fechas│   ├── Producto.php                   # Gestión de productos### Pasos Rápidos│   └── conexion.php          # Conexión PDO a la base de datos
+
+   - Estadísticas: Total ventas, subtotal, IVA, total general
+
+   - Detalles expandibles de cada factura│   ├── Cliente.php                    # Gestión de clientes
+
+
+
+---│   ├── FacturaVenta.php               # Gestión de ventas
+
+
+
+## 🧪 Verificación del Sistema│   ├── Categoria.php                  # Categorías
+
+
+
+### ✅ Checklist de Instalación│   ├── Proveedor.php                  # Proveedores1. **Iniciar XAMPP**### 8 Tablas Principales├── models/
+
+
+
+- [ ] Apache y MySQL corriendo en XAMPP│   └── MovimientoInventario.php       # Movimientos de stock
+
+- [ ] Base de datos `inventario_tienda` creada
+
+- [ ] 8 tablas importadas correctamente│   - Start Apache + MySQL
+
+- [ ] 3 vistas SQL creadas
+
+- [ ] 1 Stored Procedure creado├── 📁 views/                          # VISTAS (Interfaz)
+
+- [ ] 1 Trigger creado
+
+- [ ] Página principal carga: `http://localhost/Proyecto_PHP/index.php`│   ├── productos/1. **Proveedor** - Proveedores de productos│   ├── Producto.php          # Modelo de productos
+
+
+
+### 🧪 Pruebas Rápidas│   │   ├── crear.php                  # [Admin + Vendedor]
+
+
+
+#### Probar VISTA SQL│   │   └── editar.php                 # [Solo Admin]2. **Importar BD**
+
+```sql
+
+-- Ejecutar en phpMyAdmin → SQL│   ├── clientes/
+
+SELECT * FROM vista_productos_stock;
+
+```│   │   ├── crear.php                  # [Admin + Vendedor]   - phpMyAdmin → Importar2. **Categoria** - Categorías de ropa│   ├── Cliente.php           # Modelo de clientes
+
+
+
+#### Probar STORED PROCEDURE│   │   └── editar.php                 # [Solo Admin]
+
+```sql
+
+-- Ejecutar en phpMyAdmin → SQL│   ├── ventas/   - Archivo: `sql/inventario_tienda_COMPLETO.sql`
+
+CALL sp_reporte_ventas_periodo('2025-10-01', '2025-10-31');
+
+```│   │   └── generar.php                # [Admin + Vendedor]
+
+
+
+#### Probar TRIGGER│   └── reportes/3. **Producto** - Productos con marca, precio USD, IVA 15%│   ├── FacturaVenta.php      # Modelo de ventas
+
+```sql
+
+-- Ejecutar en phpMyAdmin → SQL│       ├── ventas.php                 # [Solo Admin]
+
+UPDATE productos SET stock_actual = 3 WHERE id = 1;
+
+-- Luego verificar:│       └── stock_minimo.php           # [Solo Admin]3. **Acceder**
+
+SELECT * FROM movimientos_inventario WHERE descripcion LIKE '%SISTEMA%';
+
+```│
+
+
+
+---├── 📁 public/                         # RECURSOS PÚBLICOS   - `http://localhost/Proyecto_PHP/`4. **Cliente** - Clientes con identificación Ecuador│   ├── MovimientoInventario.php
+
+
+
+## 🔧 Configuración│   ├── css/
+
+
+
+### Conexión a Base de Datos│   │   └── style.css                  # Estilos personalizados
+
+
+
+**Archivo**: `config/conexion.php`│   └── js/
+
+
+
+```php│       └── main.js                    # JavaScript
+
+private $host = "localhost";
+
+private $db_name = "inventario_tienda";│
+
+private $username = "root";
+
+private $password = "";  // Vacío en XAMPP por defecto├── 📁 sql/
+
+```
+
+│   └── inventario_tienda_COMPLETO.sql # ⭐ Script completo unificado
+
+---
+
+│
+
+## 🐛 Solución de Problemas
+
+├── INDEX.PHP                          # Dashboard principal
+
+### ❌ Error: "Connection failed"
+
+│
+
+**Causa**: MySQL no está corriendo o credenciales incorrectas
+
+└── 📚 DOCUMENTACIÓN
+
+**Solución**:
+
+1. Abre XAMPP Control Panel    ├── README.md                      # ⭐ Este archivo## 📂 ESTRUCTURA7. **DetalleVenta** - Productos vendidos por factura├── views/
+
+2. Verifica que MySQL esté en **verde** (Running)
+
+3. Si no, haz clic en "Start" junto a MySQL    ├── SISTEMA_AUTENTICACION.md       # Doc del sistema de login
+
+4. Verifica credenciales en `config/conexion.php`
+
+    ├── GUIA_PRUEBAS_LOGIN.md          # Casos de prueba
+
+### ❌ Error: "Table doesn't exist"
+
+    ├── ESTRUCTURA_VISUAL.md           # Diagramas del proyecto
+
+**Causa**: El archivo SQL no se importó correctamente
+
+    ├── REORGANIZACION_AUTH.md         # Cambios de estructura```8. **MovimientoInventario** - Movimientos de stock + alertas TRIGGER│   ├── productos/
+
+**Solución**:
+
+1. Ve a phpMyAdmin: `http://localhost/phpmyadmin`    └── DOCUMENTACION_SQL.md           # Documentación de BD
+
+2. Selecciona base de datos `inventario_tienda`
+
+3. Si no tiene tablas, importa de nuevo `sql/inventario_tienda_COMPLETO.sql````Proyecto_PHP/
+
+
+
+### ❌ Error: "Cannot modify header information"
+
+
+
+**Causa**: Espacios o BOM antes de `<?php`---├── sql/│   │   ├── crear.php         # ✅ INGRESO: Crear producto
+
+
+
+**Solución**:
+
+- Guarda todos los archivos PHP con encoding **UTF-8 sin BOM**
+
+- Asegúrate de que no haya espacios antes de `<?php`## 🖥️ PANTALLAS DEL SISTEMA│   └── inventario_tienda_COMPLETO.sql  ⭐ Archivo SQL único
+
+
+
+### ❌ Página en blanco
+
+
+
+**Causa**: Error de PHP no mostrado### 🔐 Autenticación├── config/### 3 Vistas SQL│   │   └── editar.php        # ✅ ACTUALIZACIÓN: Editar producto
+
+
+
+**Solución**:0. **Login** (`auth/login.php`) - Inicio de sesión obligatorio
+
+1. Abre `config/conexion.php`
+
+2. Agrega después de `<?php`:│   └── conexion.php
+
+   ```php
+
+   error_reporting(E_ALL);### 📥 Ingreso de Datos (2 pantallas)
+
+   ini_set('display_errors', 1);
+
+   ```1. **Crear Producto** (`views/productos/crear.php`)├── models/- `vista_stock_bajo` - Productos con stock bajo el mínimo│   ├── clientes/
+
+3. Recarga la página y verás el error específico
+
+   - Campos: Código, Nombre, Marca, Descripción, Precio USD, IVA %, Stock
+
+### ❌ Apache no inicia (Puerto 80 ocupado)
+
+   - Permisos: Admin + Vendedor ✅│   ├── Cliente.php      (con campos Ecuador)
+
+**Causa**: Skype u otro programa usa el puerto 80
+
+
+
+**Solución**:
+
+1. En XAMPP, Config → httpd.conf2. **Crear Cliente** (`views/clientes/crear.php`)│   ├── Producto.php     (con marca e IVA)- `vista_ventas_completas` - Resumen de ventas│   │   ├── crear.php         # ✅ INGRESO: Crear cliente
+
+2. Busca: `Listen 80`
+
+3. Cambia a: `Listen 8080`   - Campos: Identificación Ecuador, Nombres, Teléfono, Email, Dirección, Provincia
+
+4. Reinicia Apache
+
+5. Accede con: `http://localhost:8080/Proyecto_PHP/`   - Permisos: Admin + Vendedor ✅│   └── ...
 
 
 
@@ -410,47 +710,201 @@ Proyecto_PHP/7. **Generar Venta** - Con métodos de pago Ecuador---```
 
 
 
-## 🗄️ BASE DE DATOS---│   └── css/
+## 🏆 Cumplimiento de Requisitos Académicos### ✏️ Actualización de Datos (2 pantallas)├── views/- `vista_detalle_ventas` - **Detalle de productos con cálculo de IVA 15%**│   │   ├── editar.php        # ✅ ACTUALIZACIÓN: Editar cliente
 
 
+
+| Requisito | Estado | Implementación |3. **Editar Producto** (`views/productos/editar.php`)
+
+|-----------|--------|----------------|
+
+| 2 pantallas ingreso | ✅ 100% | productos/crear.php, clientes/crear.php |   - Selector integrado + Edición + Botón Eliminar│   ├── productos/
+
+| 2 pantallas actualización | ✅ 100% | productos/editar.php, clientes/editar.php |
+
+| 2 reportes | ✅ 100% | stock_minimo.php (VISTA), ventas.php (SP) |   - Permisos: Solo Admin ⚠️
+
+| Vistas SQL | ✅ 300% | 3 vistas implementadas |
+
+| Stored Procedures | ✅ 100% | 1 SP con 2 resultados |│   ├── clientes/│   │   ├── agregar_telefono.php
+
+| Triggers | ✅ 100% | 1 Trigger automático |
+
+| Funciones agregación | ✅ 100% | SUM, AVG, COUNT, MIN, MAX |4. **Editar Cliente** (`views/clientes/editar.php`)
+
+| Normalización 3FN | ✅ 100% | 8 tablas normalizadas |
+
+   - Selector integrado + Edición + Botón Eliminar│   ├── reportes/
+
+---
+
+   - Permisos: Solo Admin ⚠️
+
+## 🎨 Características de Interfaz
+
+│   └── ventas/### 1 Stored Procedure│   │   └── eliminar_telefono.php
+
+- ✅ **Diseño Responsive**: Bootstrap 5.3
+
+- ✅ **Iconos**: Bootstrap Icons### 📊 Reportes de Datos (2 pantallas)
+
+- ✅ **Efectos Visuales**: Hover, animaciones
+
+- ✅ **Confirmaciones**: JavaScript para acciones críticas5. **Reporte Stock Bajo Mínimo** (`views/reportes/stock_minimo.php`)├── public/
+
+- ✅ **Alertas**: Mensajes de éxito/error
+
+- ✅ **Tablas**: Diseño moderno y legible   - Usa: **VISTA SQL** `vista_stock_bajo`
+
+
+
+---   - Muestra: Productos críticos con datos de proveedor│   ├── css/- `sp_reporte_ventas_fechas(fecha_inicio, fecha_fin)` - Reporte con estadísticas│   └── reportes/
+
+
+
+## 🔒 Seguridad   - Permisos: Solo Admin ⚠️
+
+
+
+- ✅ **PDO con Prepared Statements**: Prevención de SQL Injection│   └── js/
+
+- ✅ **Sanitización**: `htmlspecialchars()` en salidas
+
+- ✅ **Validación**: Datos en servidor y cliente6. **Reporte de Ventas por Fechas** (`views/reportes/ventas.php`)
+
+- ✅ **Transacciones**: Control ACID
+
+- ✅ **Foreign Keys**: Integridad referencial   - Usa: **STORED PROCEDURE** `sp_reporte_ventas_periodo`├── INDEX.PHP            ⭐ Página principal│       ├── stock_minimo.php  # ✅ REPORTE: Stock bajo mínimo
+
+
+
+---   - Filtro: Rango de fechas + Estadísticas
+
+
+
+## 📚 Documentación   - Permisos: Solo Admin ⚠️├── README.md            📖 Este archivo
+
+
+
+| Archivo | Descripción |
+
+|---------|-------------|
+
+| `README.md` | Documentación general (este archivo) |### 🛒 Extra├── INSTALACION.md       📖 Guía de instalación### 1 Trigger Automático│       └── ventas.php        # ✅ REPORTE: Ventas por fechas
+
+| `DOCUMENTACION_SQL.md` | Documentación técnica de BD |
+
+7. **Generar Venta** (`views/ventas/generar.php`)
+
+---
+
+   - Selección de cliente + Productos + Métodos de pago Ecuador└── DOCUMENTACION_SQL.md 📖 Documentación técnica BD
+
+## 📞 URLs del Sistema
+
+   - Cálculo automático de IVA 15%
+
+- **Sistema**: `http://localhost/Proyecto_PHP/index.php`
+
+- **phpMyAdmin**: `http://localhost/phpmyadmin`   - Permisos: Admin + Vendedor ✅```- `tr_restock_producto` - **Alerta automática cuando stock < stock_mínimo**├── public/
+
+
+
+---
+
+
+
+## 🧪 Datos de Ejemplo---
+
+
+
+El script SQL incluye datos de prueba:
+
+- **10 productos** (Adidas, Nike, Levi's, Zara, Puma, etc.)
+
+- **6 clientes** (con identificación Ecuador)## 🗄️ BASE DE DATOS---│   └── css/
+
+- **6 ventas** (octubre 2025)
+
+
+
+---
 
 ### 📊 Tablas (8)
 
+## 🚀 Estado del Proyecto
+
 1. **categorias** - Categorías de productos
+
+### ✅ SISTEMA 100% COMPLETO Y FUNCIONAL
 
 2. **proveedores** - Información de proveedores (con RUC, datos Ecuador)
 
-3. **productos** - Inventario de productos (código único, marca, IVA 15%)
+- ✅ Base de datos normalizada (3FN)
 
-4. **movimientos_inventario** - Auditoría de movimientos (entrada, salida, ajuste)
+- ✅ 8 tablas con datos de prueba3. **productos** - Inventario de productos (código único, marca, IVA 15%)
 
-5. **clientes** - Información de clientes (cédula, RUC, pasaporte)
+- ✅ 3 vistas SQL funcionales
 
-6. **facturas_venta** - Facturas generadas (cabecera con totales)
+- ✅ 1 stored procedure usado en reportes4. **movimientos_inventario** - Auditoría de movimientos (entrada, salida, ajuste)
 
-7. **detalle_factura** - Productos vendidos por factura (líneas con IVA)
+- ✅ 1 trigger de alerta automática
 
-8. **usuarios** - Usuarios del sistema con roles (entidad aislada sin FK)- `vista_stock_bajo` - Productos críticos
+- ✅ 6 pantallas operativas5. **clientes** - Información de clientes (cédula, RUC, pasaporte)
 
+- ✅ Interfaz responsive con Bootstrap 5
 
+- ✅ Adaptado 100% para Ecuador6. **facturas_venta** - Facturas generadas (cabecera con totales)
 
-### 👁️ Vistas SQL (3)
+- ✅ Documentación completa
 
-- **`vista_productos_stock`** - Productos con su estado de stock (Sin stock / Stock bajo / Stock normal)
-
-- **`vista_ventas_detalladas`** - Resumen de ventas con información completa de clientes
-
-- **`vista_movimientos_inventario`** - Auditoría de movimientos con información del producto
+- ✅ **Listo para presentación académica**7. **detalle_factura** - Productos vendidos por factura (líneas con IVA)
 
 
 
-### ⚙️ Stored Procedures (1)
+---8. **usuarios** - Usuarios del sistema con roles (entidad aislada sin FK)- `vista_stock_bajo` - Productos críticos
 
-- **`sp_reporte_ventas_periodo`** - Reporte de ventas por rango de fechas con 2 resultados:
+
+
+## 📄 Licencia
+
+
+
+Este es un proyecto académico desarrollado con fines educativos.### 👁️ Vistas SQL (3)
+
+
+
+---- **`vista_productos_stock`** - Productos con su estado de stock (Sin stock / Stock bajo / Stock normal)
+
+
+
+## 👨‍💻 Información del Proyecto- **`vista_ventas_detalladas`** - Resumen de ventas con información completa de clientes
+
+
+
+- **Tipo**: Proyecto Académico - Base de Datos- **`vista_movimientos_inventario`** - Auditoría de movimientos con información del producto
+
+- **Requerimiento**: 2+2+2 pantallas (ingreso, actualización, reportes)
+
+- **País**: Ecuador 🇪🇨
+
+- **Fecha**: Octubre 2025
+
+- **Versión**: 2.0 COMPLETA### ⚙️ Stored Procedures (1)
+
+
+
+---- **`sp_reporte_ventas_periodo`** - Reporte de ventas por rango de fechas con 2 resultados:
+
   - Resultado 1: Lista detallada de ventas del período
-  - Resultado 2: Estadísticas agregadas (total facturas, subtotal, IVA, total general)### Ingreso de Datos (2 pantallas)```
 
-### 🔔 Triggers (1)
+**¡Sistema listo para usar! 🚀**  - Resultado 2: Estadísticas agregadas (total facturas, subtotal, IVA, total general)### Ingreso de Datos (2 pantallas)```
+
+
+
+**Desarrollado con ❤️ para Ecuador**  ### 🔔 Triggers (1)
+
+**Versión 2.0 - Octubre 2025**
 
 - **`trg_restock_automatico`** - Se activa AFTER UPDATE cuando `stock_actual <= stock_minimo`
   - Registra movimiento de entrada automático en `movimientos_inventario`
